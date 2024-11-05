@@ -45,4 +45,13 @@ public class Asiento {
 	@JsonIgnore
 	private List<Boleto> boletos;
 	
+	
+	public void addBoleto(Boleto boleto) {
+		this.boletos.add(boleto);
+	}
+
+	public void removeBoleto(Boleto boleto) {
+		this.boletos.remove(boleto);
+		
+	}
 }
