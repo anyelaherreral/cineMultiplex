@@ -46,4 +46,22 @@ public class Snack {
 	@OneToMany(mappedBy = "snacks", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<PedidoSnackPromocion> pedidoSnackPromociones;
+	
+	public void addSnackPromocion(SnackPromocion snackPromocion) {
+		this.snackPromociones.add(snackPromocion);
+	}
+
+	public void removeSnackPromocion(SnackPromocion snackPromocion) {
+		this.snackPromociones.remove(snackPromocion);
+		
+	}
+	
+	public void addPedidoSnackPromocion(PedidoSnackPromocion pedidoSnackPromocion) {
+		this.pedidoSnackPromociones.add(pedidoSnackPromocion);
+	}
+
+	public void removePedidoSnackPromocion(PedidoSnackPromocion pedidoSnackPromocion) {
+		this.pedidoSnackPromociones.remove(pedidoSnackPromocion);
+		
+	}
 }

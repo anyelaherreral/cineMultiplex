@@ -29,5 +29,14 @@ public class TipoProyeccion {
 	
 	@OneToMany(mappedBy = "tipoProyeccion", cascade= CascadeType.ALL)
 	@JsonIgnore
-	private List<TipoProyeccion> tipoProyeccion;
+	private List<Sala> salas;
+	
+	public void addSala(Sala sala) {
+		this.salas.add(sala);
+	}
+
+	public void removeSala(Sala sala) {
+		this.salas.remove(sala);
+		
+	}
 }

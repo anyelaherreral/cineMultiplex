@@ -30,4 +30,13 @@ public class Genero {
 	@OneToMany(mappedBy = "genero", cascade= CascadeType.ALL)
 	@JsonIgnore
 	private List<Pelicula> peliculas;
+
+	public void addPelicula(Pelicula pelicula) {
+		this.peliculas.add(pelicula);
+	}
+
+	public void removePelicula(Pelicula pelicula) {
+		this.peliculas.remove(pelicula);
+		
+	}
 }

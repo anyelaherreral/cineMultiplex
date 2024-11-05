@@ -64,19 +64,13 @@ public class RolService {
 		Optional<Rol> rolOpt = rolRepository.findById(id);
 
 		if (rolOpt.isPresent()) {
-
 			Rol rol = rolOpt.get();
-
 			Optional<Empleado> empleadoOpt = empleadoRepository.findById(empleadoId);
-
 			if (empleadoOpt.isPresent()) {
-
 				rol.addEmpleado(empleadoOpt.get());
 			}
-
 			return rolRepository.save(rol);
 		}
-
 		return null;
 	}
 }
