@@ -35,4 +35,26 @@ public class Sala {
 	@OneToMany(mappedBy = "sala", cascade= CascadeType.ALL)
 	@JsonIgnore
 	private List<Funcion> funciones;
+	
+	@OneToMany(mappedBy = "sala", cascade= CascadeType.ALL)
+	@JsonIgnore
+	private List<Asiento> asientos;
+	
+	public void addFuncion(Funcion funcion) {
+		this.funciones.add(funcion);
+	}
+
+	public void removeFuncion(Funcion funcion) {
+		this.funciones.remove(funcion);
+		
+	}
+	
+	public void addAsiento(Asiento asiento) {
+		this.asientos.add(asiento);
+	}
+
+	public void removeAsiento(Asiento asiento) {
+		this.asientos.remove(asiento);
+		
+	}
 }

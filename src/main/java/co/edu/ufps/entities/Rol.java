@@ -40,10 +40,6 @@ public class Rol {
 		
 	}
 	
-	public void eliminarEmpleado(Empleado empleado) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	
 }
