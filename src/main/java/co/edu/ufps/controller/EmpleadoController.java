@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ufps.entities.Empleado;
+import co.edu.ufps.entities.TipoPersona;
 import co.edu.ufps.services.EmpleadoService;
 
 @RestController
@@ -51,6 +52,12 @@ public class EmpleadoController {
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		boolean deleted = empleadoService.delete(id);
 		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+	}
+	
+	@PostMapping("/{id}/add_funcions/{funcionId}")
+	public Empleado create(@PathVariable Integer id, @PathVariable Integer funcionId) {
+		Empleado nuevaTipoPersona = empleadoService.addFuncion(id, funcionId);
+		return nuevaTipoPersona;
 	}
 
 }

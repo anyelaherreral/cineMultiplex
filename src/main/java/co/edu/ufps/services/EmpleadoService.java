@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Empleado;
+import co.edu.ufps.entities.Funcion;
+import co.edu.ufps.entities.TipoPersona;
 import co.edu.ufps.repositories.EmpleadoRepository;
 
 
@@ -15,6 +17,9 @@ public class EmpleadoService {
 
 	@Autowired
 	EmpleadoRepository empleadoRepository;
+	
+	@Autowired
+	FuncionRepository funcionRepository;
 	
 	public List<Empleado> list() {
 		return empleadoRepository.findAll();
@@ -25,8 +30,8 @@ public class EmpleadoService {
 	}
 
 	// Obtener un empleado por ID
-	public Optional<Empleado> getByDocumento(Integer documento) {
-		return empleadoRepository.findById(documento);
+	public List<Empleado> getByDocumento(String documento) {
+		return empleadoRepository.findByDocumento(documento);
 	}
 
 	// Actualizar un empleado existente
@@ -40,7 +45,9 @@ public class EmpleadoService {
 
 		// Actualiza otros campos según sea necesario
 		empleado.setNombre(empleado.getNombre());
+		empleado.setDocumento(empleado.getDocumento());
 		empleado.setEmail(empleado.getEmail());
+		empleado.setRol(empleado.getRol());
 
 		return Optional.of(empleadoRepository.save(empleado));
 	}
@@ -53,5 +60,24 @@ public class EmpleadoService {
 
 		empleadoRepository.deleteById(id);
 		return true;
+	}
+	
+	public Empleado addFuncion(Integer id, Integer funcionId) {
+
+		Optional<Empleado> tipoPersonaOpt = empleadoRepository.findById(id);
+
+		if (tipoPersonaOpt.isPresent()) {
+
+			Empleado tipoPersona = tipoPersonaOpt.get();
+
+			Optional<Funcion> funcionOpt = funcionRepository.findById(funcionId);
+
+			if (funcionOpt.isPresent()) {
+				tipoPersona.addFuncion(funcionOpt.get());
+			}
+			return empleadoRepository.save(tipoPersona);
+		}
+
+		return null;
 	}
 }

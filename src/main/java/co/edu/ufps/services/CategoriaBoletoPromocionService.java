@@ -57,25 +57,12 @@ public class CategoriaBoletoPromocionService {
             return Optional.empty();
         }
 
-        CategoriaBoletoPromocion promocion = optionalPromocion.get();
-        promocion.setDescuento(categoriaBoletoPromocionDetails.getDescuento());
-        promocion.setCategoriaBoleto(categoriaBoletoPromocionDetails.getCategoriaBoleto());
-        promocion.setPromocion(categoriaBoletoPromocionDetails.getPromocion());
+        CategoriaBoletoPromocion categoriaBolProm = optionalPromocion.get();
+        categoriaBolProm.setDescuento(categoriaBoletoPromocionDetails.getDescuento());
+        categoriaBolProm.setCategoriaBoleto(categoriaBoletoPromocionDetails.getCategoriaBoleto());
+        categoriaBolProm.setPromocion(categoriaBoletoPromocionDetails.getPromocion());
 
-        return Optional.of(categoriaBoletoPromocionRepository.save(promocion));
+        return Optional.of(categoriaBoletoPromocionRepository.save(categoriaBolProm));
     }
 
-    /**
-     * Elimina una promoción de categoría de boleto por su ID.
-     * 
-     * @param id ID de la promoción a eliminar.
-     * @return true si la promoción fue eliminada, false si no existe.
-     */
-    public boolean delete(Integer id) {
-        if (!categoriaBoletoPromocionRepository.existsById(id)) {
-            return false;
-        }
-        categoriaBoletoPromocionRepository.deleteById(id);
-        return true;
-    }
 }

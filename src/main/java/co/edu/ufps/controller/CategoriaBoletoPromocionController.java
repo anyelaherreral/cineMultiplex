@@ -67,15 +67,4 @@ public class CategoriaBoletoPromocionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    /**
-     * Elimina una promoción de categoría de boleto por su ID.
-     * 
-     * @param id ID de la promoción a eliminar.
-     * @return Mensaje de éxito o error.
-     */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        boolean isDeleted = categoriaBoletoPromocionService.delete(id);
-        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-    }
 }
