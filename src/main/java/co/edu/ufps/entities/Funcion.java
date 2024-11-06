@@ -51,4 +51,6 @@ public class Funcion {
 	@OneToMany(mappedBy = "funcion", cascade= CascadeType.ALL)
 	@JsonIgnore
 	private List<Boleto> boletos;
+	
+	
 }
