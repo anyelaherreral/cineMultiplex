@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Empleado;
 import co.edu.ufps.entities.Funcion;
-import co.edu.ufps.entities.TipoPersona;
+import co.edu.ufps.repositories.FuncionRepository;
 import co.edu.ufps.repositories.EmpleadoRepository;
 
 

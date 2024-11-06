@@ -65,7 +65,7 @@ public class BoletoService {
         Boleto boleto = optionalBoleto.get();
         boleto.setAsiento(boletoDetails.getAsiento());
         boleto.setFuncion(boletoDetails.getFuncion());
-        boleto.setCategoriaBoleto(boletoDetails.getCategoriaBoleto());
+//        boleto.setCategoriaBoleto(boletoDetails.getCategoriaBoleto());
 
         return Optional.of(boletoRepository.save(boleto));
     }
