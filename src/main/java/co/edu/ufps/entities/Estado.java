@@ -30,4 +30,13 @@ public class Estado {
 	@OneToMany(mappedBy = "estado", cascade= CascadeType.ALL)
 	@JsonIgnore
 	private List<Asiento> asientos;
+	
+	public void addAsiento(Asiento asiento) {
+		this.asientos.add(asiento);
+	}
+
+	public void removeAsiento(Asiento asiento) {
+		this.asientos.remove(asiento);
+		
+	}
 }

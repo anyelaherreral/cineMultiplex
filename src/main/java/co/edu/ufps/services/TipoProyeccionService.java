@@ -33,6 +33,11 @@ public class TipoProyeccionService {
 	public Optional<TipoProyeccion> getById(Integer id) {
 		return tipoProyeccionRepository.findById(id);
 	}
+	
+	public Optional<TipoProyeccion> getByDescripcion(String descripcion) {
+		return tipoProyeccionRepository.findByDescripcion(descripcion);
+	}
+
 
 	// Actualizar un tipoProyeccion existente
 	public Optional<TipoProyeccion> update(Integer id, TipoProyeccion tipoProyeccionDetails) {

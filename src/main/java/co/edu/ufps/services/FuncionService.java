@@ -45,6 +45,7 @@ public class FuncionService {
 		// Actualiza otros campos según sea necesario
 		funcion.setHorario(funcion.getHorario());
 		funcion.setFecha(funcion.getFecha());
+		funcion.setSala(funcion.getSala());
 
 		return Optional.of(funcionRepository.save(funcion));
 	}
@@ -68,7 +69,6 @@ public class FuncionService {
     public List<Funcion> findByHorario(Time horario) {
         return funcionRepository.findByHorario(horario);
     }
-
-    
+      
     
 }

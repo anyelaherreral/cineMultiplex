@@ -57,14 +57,14 @@ public class FuncionController {
 	}
 	
 	 // Obtener funciones por fecha
-    @GetMapping("/fecha")
+    @GetMapping("/{fecha}")
     public List<Funcion> getByFecha(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha) {
         return funcionService.findByFecha(fecha);
     }
     
 
     // Obtener funciones por horario
-    @GetMapping("/horario")
+    @GetMapping("/{horario}")
     public List<Funcion> getByHorario(@PathVariable Time horario) {
         return funcionService.findByHorario(horario);
     }

@@ -30,4 +30,13 @@ public class MetodoPago {
 	@OneToMany(mappedBy = "metodoPago", cascade= CascadeType.ALL)
 	@JsonIgnore
 	private List<Pedido> pedidos;
+	
+	public void addPedido(Pedido pedido) {
+		this.pedidos.add(pedido);
+	}
+
+	public void removePedido(Pedido pedido) {
+		this.pedidos.remove(pedido);
+		
+	}
 }

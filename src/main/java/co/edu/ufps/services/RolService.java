@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Empleado;
+import co.edu.ufps.entities.Estado;
 import co.edu.ufps.entities.Rol;
 import co.edu.ufps.repositories.EmpleadoRepository;
 import co.edu.ufps.repositories.RolRepository;
@@ -58,7 +59,10 @@ public class RolService {
 		rolRepository.deleteById(id);
 		return true;
 	}
-	
+	public Optional<Rol> getByDescripcion(String descripcion) {
+		return rolRepository.findByDescripcion(descripcion);
+	}
+
 	public Rol addEmpleado(Integer id, Integer empleadoId) {
 
 		Optional<Rol> rolOpt = rolRepository.findById(id);

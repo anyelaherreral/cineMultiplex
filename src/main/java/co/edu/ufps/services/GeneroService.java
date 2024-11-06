@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Pelicula;
 import co.edu.ufps.entities.Genero;
+import co.edu.ufps.entities.MetodoPago;
 import co.edu.ufps.repositories.PeliculaRepository;
 import co.edu.ufps.repositories.GeneroRepository;
 
@@ -33,6 +34,11 @@ public class GeneroService {
 	public Optional<Genero> getById(Integer id) {
 		return generoRepository.findById(id);
 	}
+	
+	public Optional<Genero>getByDescripcion(String descripcion) {
+		return generoRepository.findByDescripcion(descripcion);
+	}
+
 
 	// Actualizar un genero existente
 	public Optional<Genero> update(Integer id, Genero generoDetails) {

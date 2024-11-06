@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ufps.entities.Empleado;
-import co.edu.ufps.entities.TipoPersona;
 import co.edu.ufps.services.EmpleadoService;
 
 @RestController
@@ -37,9 +36,9 @@ public class EmpleadoController {
 	}
 
 	@GetMapping("/{documento}")
-	public ResponseEntity<Empleado> getByDocumento(@PathVariable Integer documento) {
-		Optional<Empleado> Empleado = empleadoService.getByDocumento(documento);
-		return Empleado.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	public List<Empleado> getByDocumento(@PathVariable String documento) {
+		List<Empleado> empleados = empleadoService.getByDocumento(documento);
+		return empleados;
 	}
 
 	@PutMapping("/{id}")

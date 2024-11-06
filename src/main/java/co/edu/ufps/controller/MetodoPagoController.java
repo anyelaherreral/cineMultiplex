@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.MetodoPago;
+import co.edu.ufps.services.AsientoService;
 import co.edu.ufps.services.MetodoPagoService;
 
 @RestController
@@ -70,5 +72,11 @@ public class MetodoPagoController {
         boolean deleted = metodoPagoService.deleteByDescripcion(descripcion);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
+    
+    @PostMapping("/{id}/add_pedidos/{pedidoId}")
+	public MetodoPago create(@PathVariable Integer id, @PathVariable Integer pedidoId) {
+		MetodoPago nuevaMetodoPago = metodoPagoService.addPedido(id, pedidoId);
+		return nuevaMetodoPago;
+	}
 
 }

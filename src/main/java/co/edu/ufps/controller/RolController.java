@@ -52,5 +52,17 @@ public class RolController {
 		boolean deleted = rolService.delete(id);
 		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/{descripcion}")
+    public ResponseEntity<Rol> getByDescripcion(@PathVariable String descripcion) {
+        Optional<Rol> rol = rolService.getByDescripcion(descripcion);
+        return rol.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+	
+	@PostMapping("/{id}/add_empleados/{empleadoId}")
+	public Rol create(@PathVariable Integer id, @PathVariable Integer empleadoId) {
+		Rol nuevaRol = rolService.addEmpleado(id, empleadoId);
+		return nuevaRol;
+	}
 
 }
