@@ -10,7 +10,8 @@ import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.entities.Sala;
 import co.edu.ufps.entities.Sala;
-
+import co.edu.ufps.repositories.AsientoRepository;
+import co.edu.ufps.repositories.FuncionRepository;
 import co.edu.ufps.repositories.SalaRepository;
 
 

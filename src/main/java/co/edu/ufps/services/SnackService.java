@@ -12,6 +12,7 @@ import co.edu.ufps.entities.Snack;
 
 
 import co.edu.ufps.repositories.SnackRepository;
+import co.edu.ufps.repositories.PedidoSnackPromocionRepository;
 import co.edu.ufps.repositories.SnackPromocionRepository;
 
 
