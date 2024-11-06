@@ -12,7 +12,7 @@ import co.edu.ufps.entities.PedidoBoletoPromocion;
 import co.edu.ufps.services.PedidoBoletoPromocionService;
 
 @RestController
-@RequestMapping("/api/pedido-snack-promocion")
+@RequestMapping("/api/pedido-boleto-promocion")
 public class PedidoBoletoPromocionController {
 
     @Autowired

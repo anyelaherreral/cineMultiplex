@@ -142,15 +142,5 @@ public class AsientoController {
         return releasedAsiento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /**
-     * Lista los asientos de una sala en un estado específico.
-     *
-     * @param salaId ID de la sala.
-     * @param estado Estado de los asientos a listar.
-     * @return Lista de asientos en el estado indicado.
-     */
-    @GetMapping("/sala/{salaId}/estado/{estado}")
-    public List<Asiento> findBySalaAndEstado(@PathVariable Integer salaId, @PathVariable String estado) {
-        return asientoService.findBySalaAndEstado(salaId, estado);
-    }
+   
 }
