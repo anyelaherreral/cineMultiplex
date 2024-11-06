@@ -153,14 +153,5 @@ public class AsientoService {
         return Optional.empty();
     }
 
-    /**
-     * Lista los asientos de una sala en un estado específico.
-     * 
-     * @param salaId ID de la sala.
-     * @param estado Estado de los asientos a listar.
-     * @return Lista de asientos en el estado indicado.
-     */
-    public List<Asiento> findBySalaAndEstado(Integer salaId, String estado) {
-        return asientoRepository.findBySalaIdAndEstado(salaId, estado);
-    }
+    
 }
