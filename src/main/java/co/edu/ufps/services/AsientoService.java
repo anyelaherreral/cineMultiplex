@@ -41,8 +41,6 @@ public class AsientoService {
 
         Asiento asiento = optionalAsiento.get();
         asiento.setLetra(asientoDetails.getLetra());
-//        asiento.setNumero_asiento(asientoDetails.getNumero_asiento());
-//        asiento.setSala(asientoDetails.getSala());
         asiento.setEstado(asientoDetails.getEstado());
 
         return Optional.of(asientoRepository.save(asiento));
@@ -96,6 +94,10 @@ public class AsientoService {
             return Optional.of(asientoRepository.save(asiento));
         }
         return Optional.empty();
+    }
+    
+    public List<Asiento> findBySalaAndEstado(Integer salaId, String estadoDescripcion) {
+        return asientoRepository.findBySalaIdAndEstadoDescripcion(salaId, estadoDescripcion);
     }
 
     

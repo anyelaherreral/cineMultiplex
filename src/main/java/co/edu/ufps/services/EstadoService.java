@@ -34,10 +34,6 @@ public class EstadoService {
 	public Optional<Estado> getById(Integer id) {
 		return estadoRepository.findById(id);
 	}
-	
-//	public Optional<Estado> getByDescripcion(String descripcion) {
-//		return estadoRepository.findByDescripcion(descripcion);
-//	}
 
 	// Actualizar un estado existente
 	public Optional<Estado> update(Integer id, Estado estadoDetails) {

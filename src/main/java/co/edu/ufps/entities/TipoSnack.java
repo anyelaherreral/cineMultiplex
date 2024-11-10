@@ -30,4 +30,13 @@ public class TipoSnack {
 	@OneToMany(mappedBy = "tipoSnack", cascade= CascadeType.ALL)
 	@JsonIgnore
 	private List<Snack> snacks;
+	
+	public void addSnack(Snack s) {
+		this.snacks.add(s);
+	}
+
+	public void removeSnack(Snack s) {
+		this.snacks.remove(s);
+		
+	}
 }

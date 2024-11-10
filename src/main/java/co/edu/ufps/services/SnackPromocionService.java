@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.SnackPromocion;
+import co.edu.ufps.entities.TipoSnack;
 import co.edu.ufps.repositories.SnackPromocionRepository;
 
 
@@ -23,8 +24,11 @@ public class SnackPromocionService {
 	public SnackPromocion create(SnackPromocion snackPromocion) {
 		return snackPromocionRepository.save(snackPromocion);
 	}
-
-	// Obtener un snackPromocion por ID
+	
+	public Optional<SnackPromocion> getById(Integer id) {
+		return snackPromocionRepository.findById(id);
+	}
+	
 	public Optional<SnackPromocion> getByDocumento(Integer documento) {
 		return snackPromocionRepository.findById(documento);
 	}
