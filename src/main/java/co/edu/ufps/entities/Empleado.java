@@ -34,6 +34,9 @@ public class Empleado {
 	@Column(name="email", length = 200)
 	private String email;
 	
+	@Column(name="contrasena", length = 20)
+	private String contrasena;
+	
 	@ManyToOne 
 	@JoinColumn(name="rol_id")
 	private Rol rol;

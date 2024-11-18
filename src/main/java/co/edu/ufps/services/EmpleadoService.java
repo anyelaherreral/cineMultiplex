@@ -28,6 +28,7 @@ public class EmpleadoService {
 	public Empleado create(Empleado empleado) {
 		return empleadoRepository.save(empleado);
 	}
+	
 
 	// Obtener un empleado por ID
 	public List<Empleado> getByDocumento(String documento) {
@@ -48,6 +49,7 @@ public class EmpleadoService {
 		empleado.setDocumento(empleadoDetails.getDocumento());
 		empleado.setEmail(empleadoDetails.getEmail());
 		empleado.setRol(empleadoDetails.getRol());
+		empleado.setContrasena(empleadoDetails.getContrasena());
 
 		return Optional.of(empleadoRepository.save(empleado));
 	}
