@@ -63,15 +63,18 @@ public class PeliculaService {
 
 			return Optional.of(peliculaRepository.save(pelicula));
 		}
+		
+	public boolean tieneFuncionesAsociadas(Integer id) {
+        return funcionRepository.existsByPeliculaId(id);
+    }
 
-	// Eliminar un pelicula por ID
-	public boolean delete(Integer id) {
-		if (!peliculaRepository.existsById(id)) {
-			return false;
-		}
-		peliculaRepository.deleteById(id);
-		return true;
-	}
+    public boolean delete(Integer id) {
+        if (!peliculaRepository.existsById(id)) {
+            return false;
+        }
+        peliculaRepository.deleteById(id);
+        return true;
+    }
 
 	
 

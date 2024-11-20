@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Empleado;
 import co.edu.ufps.entities.Funcion;
+import co.edu.ufps.entities.Rol;
 import co.edu.ufps.repositories.FuncionRepository;
+import co.edu.ufps.repositories.RolRepository;
 import co.edu.ufps.repositories.EmpleadoRepository;
 
 
@@ -20,6 +22,9 @@ public class EmpleadoService {
 	
 	@Autowired
 	FuncionRepository funcionRepository;
+	
+	@Autowired
+    private RolRepository rolRepository;
 	
 	public List<Empleado> list() {
 		return empleadoRepository.findAll();
@@ -82,4 +87,42 @@ public class EmpleadoService {
 
 		return null;
 	}
+	
+	public Empleado actualizarRol(Integer empleadoId, Integer rolId) {
+        Empleado empleado = empleadoRepository.findById(empleadoId).orElseThrow(() -> 
+            new RuntimeException("Empleado no encontrado con ID: " + empleadoId)
+        );
+
+        Rol rol = rolRepository.findById(rolId).orElseThrow(() -> 
+            new RuntimeException("Rol no encontrado con ID: " + rolId)
+        );
+
+        empleado.setRol(rol);
+        return empleadoRepository.save(empleado);
+    }
+	
+	public List<Funcion> obtenerFuncionesDeEmpleado(Integer empleadoId) {
+        Optional<Empleado> empleadoOpt = empleadoRepository.findById(empleadoId);
+        
+        // Si el empleado no existe, devolvemos null
+        if (!empleadoOpt.isPresent()) {
+            return null;
+        }
+        
+        Empleado empleado = empleadoOpt.get();
+        return empleado.getFunciones(); // Suponiendo que tienes una relación bidireccional en la entidad Empleado
+    }
+	
+	public void eliminarFuncionDeEmpleado(Integer empleadoId, Integer funcionId) {
+        Empleado empleado = empleadoRepository.findById(empleadoId)
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+        Funcion funcion = funcionRepository.findById(funcionId)
+                .orElseThrow(() -> new RuntimeException("Función no encontrada"));
+
+        empleado.getFunciones().remove(funcion); // Aquí se elimina la función de la lista de funciones del empleado
+        empleadoRepository.save(empleado);  // Persistir los cambios
+    }
+	
+	
 }

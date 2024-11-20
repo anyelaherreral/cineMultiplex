@@ -71,5 +71,15 @@ public class FuncionController {
 		boolean deleted = funcionService.delete(id);
 		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/fechas_disponibles")
+    public ResponseEntity<List<LocalDate>> obtenerFechasDisponibles() {
+        
+		List<LocalDate> fechasDisponibles = funcionService.obtenerFechasDisponibles();
+        if (fechasDisponibles.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(fechasDisponibles);
+    }
 
 }

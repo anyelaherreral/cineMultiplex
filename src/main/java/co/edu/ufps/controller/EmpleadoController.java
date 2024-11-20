@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ufps.entities.Empleado;
+import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.entities.Rol;
 import co.edu.ufps.services.EmpleadoService;
 import co.edu.ufps.services.RolService;
@@ -39,21 +40,14 @@ public class EmpleadoController {
 		return empleadoService.list();
 	}
 
-//	@PostMapping
-//	public Empleado create(@RequestBody Empleado Empleado) {
-//		return empleadoService.create(Empleado);
-//	}
 
 	@PostMapping
 	public ResponseEntity<Empleado> create(@RequestBody Empleado empleadoRequest) {
-		// Buscar el rol por ID
 		Rol rol = rolService.getById(empleadoRequest.getRol().getId())
 				.orElseThrow(() -> new RuntimeException("Rol no encontrado"));
 
-		// Asignar el rol al empleado
 		empleadoRequest.setRol(rol);
 
-		// Crear el empleado
 		Empleado nuevoEmpleado = empleadoService.create(empleadoRequest);
 
 		return ResponseEntity.ok(nuevoEmpleado); // Devolvemos el empleado creado
@@ -111,5 +105,28 @@ public class EmpleadoController {
 		Empleado nuevaTipoPersona = empleadoService.addFuncion(id, funcionId);
 		return nuevaTipoPersona;
 	}
+	
+	@PutMapping("/actualizarRol/{empleadoId}")
+    public Empleado actualizarRol(@PathVariable Integer empleadoId, @RequestBody Integer rolId) {
+        return empleadoService.actualizarRol(empleadoId, rolId);
+    }
+	
+	@GetMapping("/{empleadoId}/funciones")
+    public ResponseEntity<List<Funcion>> obtenerFuncionesDeEmpleado(@PathVariable("empleadoId") Integer empleadoId) {
+        List<Funcion> funciones = empleadoService.obtenerFuncionesDeEmpleado(empleadoId);
+        
+        if (funciones.isEmpty()) {
+            return ResponseEntity.noContent().build(); // Retorna 204 No Content si no hay funciones
+        }
+        return ResponseEntity.ok(funciones);
+    }
+	
+	
+	@DeleteMapping("/{empleadoId}/funciones/{funcionId}")
+	public ResponseEntity<Void> eliminarFuncionDeEmpleado(@PathVariable Integer empleadoId, @PathVariable Integer funcionId) {
+	    empleadoService.eliminarFuncionDeEmpleado(empleadoId, funcionId);
+	    return ResponseEntity.noContent().build();
+	}
+
 
 }

@@ -15,22 +15,21 @@ import co.edu.ufps.entities.Pelicula;
 import co.edu.ufps.repositories.FuncionRepository;
 import co.edu.ufps.repositories.PeliculaRepository;
 
-
 @Service
 public class FuncionService {
 
 	@Autowired
 	FuncionRepository funcionRepository;
-	
+
 	@Autowired
 	PeliculaRepository peliculaRepository;
-	
-	 // Listar todas las funciones
+
+	// Listar todas las funciones
 	public List<Funcion> list() {
 		return funcionRepository.findAll();
 	}
-	
-	 // Crear una nueva función
+
+	// Crear una nueva función
 	public Funcion create(Funcion funcion) {
 		return funcionRepository.save(funcion);
 	}
@@ -39,21 +38,23 @@ public class FuncionService {
 	public Optional<Funcion> getById(Integer id) {
 		return funcionRepository.findById(id);
 	}
-	
+
 	// Método para agregar una película a una función
-    public Funcion agregarPeliculaAFuncion(Integer funcionId, Integer peliculaId) {
-        // Buscar la función por su ID
-        Funcion funcion = funcionRepository.findById(funcionId).orElseThrow(() -> new RuntimeException("Función no encontrada"));
+	public Funcion agregarPeliculaAFuncion(Integer funcionId, Integer peliculaId) {
+		// Buscar la función por su ID
+		Funcion funcion = funcionRepository.findById(funcionId)
+				.orElseThrow(() -> new RuntimeException("Función no encontrada"));
 
-        // Buscar la película por su ID
-        Pelicula pelicula = peliculaRepository.findById(peliculaId).orElseThrow(() -> new RuntimeException("Película no encontrada"));
+		// Buscar la película por su ID
+		Pelicula pelicula = peliculaRepository.findById(peliculaId)
+				.orElseThrow(() -> new RuntimeException("Película no encontrada"));
 
-        // Asignar la película a la función
-        funcion.setPelicula(pelicula);
+		// Asignar la película a la función
+		funcion.setPelicula(pelicula);
 
-        // Guardar la función con la película asignada
-        return funcionRepository.save(funcion);
-    }
+		// Guardar la función con la película asignada
+		return funcionRepository.save(funcion);
+	}
 
 	// Actualizar un funcion existente
 	public Optional<Funcion> update(Integer id, Funcion funcionDetails) {
@@ -65,7 +66,7 @@ public class FuncionService {
 		Funcion funcion = optionalfuncion.get();
 
 		// Actualiza otros campos según sea necesario
-		//funcion.setHorario(funcion.getHorario());
+		// funcion.setHorario(funcion.getHorario());
 		funcion.setHorario(funcion.getHorario());
 		funcion.setSala(funcion.getSala());
 
@@ -81,13 +82,18 @@ public class FuncionService {
 		funcionRepository.deleteById(id);
 		return true;
 	}
-	
-	
-	//Obtener funciones por fecha
-		public List<Funcion> listFuncionesPorFecha(LocalDate fecha) {
-			return funcionRepository.findByFecha(fecha);
-		}
 
-      
-    
+	// Obtener funciones por fecha
+	public List<Funcion> listFuncionesPorFecha(LocalDate fecha) {
+		return funcionRepository.findByFecha(fecha);
+	}
+
+	public List<LocalDate> obtenerFechasDisponibles() {
+		List<LocalDate> fechasDisponibles = funcionRepository.obtenerFechasDisponibles();
+		if (fechasDisponibles.isEmpty()) {
+			return null;
+		}
+		return fechasDisponibles;
+	}
+
 }
