@@ -62,9 +62,15 @@ public class BoletoController {
 	}
 
 	@PostMapping("/{boletoId}/asientos/{asientoId}")
-	public ResponseEntity<Boleto> addAsientoToBoleto(@PathVariable Integer boletoId, @PathVariable Integer asientoId) {
-		Boleto updatedBoleto = boletoService.addAsientoToBoleto(boletoId, asientoId);
-		return updatedBoleto != null ? ResponseEntity.ok(updatedBoleto) : ResponseEntity.notFound().build();
+	public ResponseEntity<?> addAsientoToBoleto(@PathVariable Integer boletoId, @PathVariable Integer asientoId) {
+	    try {
+	        Boleto updatedBoleto = boletoService.addAsientoToBoleto(boletoId, asientoId);
+	        return ResponseEntity.ok(updatedBoleto);
+	    } catch (IllegalArgumentException | IllegalStateException e) {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
+	    }
 	}
 	
 	

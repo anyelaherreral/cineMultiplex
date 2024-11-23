@@ -92,18 +92,36 @@ public class BoletoService {
         boletoRepository.deleteById(id);
         return true;
     }
-
-    public Boleto addAsientoToBoleto(Integer boletoId, Integer asientoId) {
-        Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
-        if (boletoOpt.isPresent()) {
-            Boleto boleto = boletoOpt.get();
-            Optional<Asiento> asientoOpt = asientoRepository.findById(asientoId);
-            asientoOpt.ifPresent(boleto::setAsiento);
-            return boletoRepository.save(boleto);
-        }
-        return null;
-    }
     
+    public Boleto addAsientoToBoleto(Integer boletoId, Integer asientoId) {
+        // Buscar el boleto
+        Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
+        if (boletoOpt.isEmpty()) {
+            throw new IllegalArgumentException("El boleto con ID " + boletoId + " no existe.");
+        }
+     // Buscar el asiento
+        Optional<Asiento> asientoOpt = asientoRepository.findById(asientoId);
+        if (asientoOpt.isEmpty()) {
+            throw new IllegalArgumentException("El asiento con ID " + asientoId + " no existe.");
+        }
+        Boleto boleto = boletoOpt.get();
+        Asiento asiento = asientoOpt.get();
+
+        // Verificar si el asiento está disponible
+        if (!"Disponible".equalsIgnoreCase(asiento.getEstado().getDescripcion())) {
+            throw new IllegalStateException("El asiento no está disponible.");
+        }
+
+        // Asignar el asiento al boleto
+        boleto.setAsiento(asiento);
+
+        // Cambiar el estado del asiento a 'Ocupado'
+        asiento.getEstado().setDescripcion("Ocupado");
+        asientoRepository.save(asiento);
+
+        // Guardar el boleto actualizado
+        return boletoRepository.save(boleto);
+    }
     
     
 }

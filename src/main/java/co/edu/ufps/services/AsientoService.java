@@ -38,10 +38,9 @@ public class AsientoService {
         return asientoRepository.findBySalaIdAndLetraAndNumeroAsiento(salaId, letra, numeroAsiento);
     }
     
-    
-  
-    
-    
+    public Optional<Asiento> getById(Integer id) {
+        return asientoRepository.findById(id);
+    }
     
     public Optional<Asiento> update(Integer salaId, String letra, String numeroAsiento, Asiento asientoDetails) {
         // Buscar el asiento por salaId, letra y numeroAsiento
