@@ -21,15 +21,15 @@ public class PedidoBoletoPromocion {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "pedido_id", unique = true)
+    @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
     @ManyToOne
-    @JoinColumn(name = "promocion_id", unique = true)
+    @JoinColumn(name = "promocion_id")
     private Promocion prom;
     
     @OneToOne
-    @JoinColumn(name = "boleto_id", unique = true) // La columna de clave foránea en Empleado
+    @JoinColumn(name = "boleto_id") // La columna de clave foránea en Empleado
     private Boleto boleto;
 
     

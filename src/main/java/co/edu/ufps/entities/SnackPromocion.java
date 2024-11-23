@@ -23,11 +23,11 @@ public class SnackPromocion {
     private Float descuento;
 
     @ManyToOne
-    @JoinColumn(name = "snack_promocion_id", unique = true)
+    @JoinColumn(name = "snack_promocion_id")
     private Snack snack;
 
     @ManyToOne
-    @JoinColumn(name = "promocion_id", unique = true)
+    @JoinColumn(name = "promocion_id")
     private Promocion promo;
 
     

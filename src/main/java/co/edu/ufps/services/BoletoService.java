@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Boleto;
+import co.edu.ufps.entities.Estado;
 import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.repositories.BoletoRepository;
+import co.edu.ufps.repositories.EstadoRepository;
 import co.edu.ufps.repositories.AsientoRepository;
 
 @Service
@@ -19,6 +21,9 @@ public class BoletoService {
 
     @Autowired
     private AsientoRepository asientoRepository;
+
+    @Autowired
+    private EstadoRepository estadoRepository;
 
     public List<Boleto> list() {
         return boletoRepository.findAll();
@@ -31,6 +36,36 @@ public class BoletoService {
     public Optional<Boleto> getById(Integer id) {
         return boletoRepository.findById(id);
     }
+    
+    public Optional<Boleto> asignarAsientoABoleto(Integer boletoId, Integer salaId, String letra, String numero) {
+        // Buscar el boleto
+        Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
+        if (boletoOpt.isEmpty()) {
+            return Optional.empty(); // No existe el boleto
+        }
+
+        // Verificar que el asiento existe y está disponible
+        Optional<Asiento> asientoOpt = asientoRepository.findBySalaIdAndLetraAndNumeroAsientoAndEstadoDescripcion(salaId, letra, numero, "DISPONIBLE");
+        if (asientoOpt.isEmpty()) {
+            return Optional.empty(); // No se encontró un asiento disponible
+        }
+
+        // Cambiar estado del asiento a "OCUPADO"
+        Asiento asiento = asientoOpt.get();
+        Optional<Estado> estadoOcupadoOpt = estadoRepository.findByDescripcion("OCUPADO");
+        if (estadoOcupadoOpt.isEmpty()) {
+            return Optional.empty(); // No existe el estado "OCUPADO"
+        }
+
+        asiento.setEstado(estadoOcupadoOpt.get());
+        asientoRepository.save(asiento); // Guardar el cambio de estado del asiento
+
+        // Asignar asiento al boleto
+        Boleto boleto = boletoOpt.get();
+        boleto.setAsiento(asiento);
+        return Optional.of(boletoRepository.save(boleto)); // Guardar el boleto actualizado
+    }
+    
 
     public Optional<Boleto> update(Integer id, Boleto boletoDetails) {
         Optional<Boleto> optionalBoleto = boletoRepository.findById(id);

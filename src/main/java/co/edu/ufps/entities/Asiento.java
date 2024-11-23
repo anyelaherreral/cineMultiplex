@@ -27,10 +27,10 @@ public class Asiento {
 	@Column(name="id")
 	private Integer id;
 	
-	@Column(name="letra",unique = false, length =1)
+	@Column(name="letra", length =1, nullable = false)
 	private String letra;
-	@Column(name="numero_asiento",unique = false, length =2)
-	private String numero_asiento;
+	@Column(name="numero_asiento", length =2, nullable = false)
+	private String numeroAsiento;
 		
 	
 	@ManyToOne
@@ -38,7 +38,7 @@ public class Asiento {
 	private Estado estado;
 	
 	@ManyToOne
-	@JoinColumn(name="sala_id", unique = false)
+	@JoinColumn(name="sala_id")
 	private Sala sala;
 	
 	@OneToMany(mappedBy = "asiento", cascade= CascadeType.ALL)

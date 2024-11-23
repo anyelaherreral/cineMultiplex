@@ -1,7 +1,7 @@
 package co.edu.ufps.entities;
 
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
@@ -27,10 +27,10 @@ public class Promocion {
 	private String descripcion;
 
 	@Column(name="fecha_inicio")
-	private Date fechaInicio;
+	private LocalDate fechaInicio;
 	
 	@Column(name="fecha_fin")
-	private Date fechaFin;
+	private LocalDate fechaFin;
 	
 	@OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL)
 	@JsonIgnore

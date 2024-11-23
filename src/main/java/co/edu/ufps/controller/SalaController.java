@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.Pelicula;
 import co.edu.ufps.entities.Sala;
 import co.edu.ufps.services.SalaService;
@@ -36,6 +37,16 @@ public class SalaController {
 		Optional<Sala> Sala = salaService.getById(id);
 		return Sala.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
+	
+	 @GetMapping("/asientos/{salaId}")
+	    public ResponseEntity<List<Asiento>> getAsientosBySala(@PathVariable Integer salaId) {
+	        Optional<List<Asiento>> asientosOpt = salaService.getAsientosBySalaId(salaId);
+	        if (asientosOpt.isEmpty() || asientosOpt.get().isEmpty()) {
+	            return ResponseEntity.noContent().build();
+	        }
+	        return ResponseEntity.ok(asientosOpt.get());
+	    }
+
 	
 	@PostMapping
 	public Sala create(@RequestBody Sala Sala) {

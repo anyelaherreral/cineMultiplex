@@ -39,6 +39,11 @@ public class SalaService {
 	public Optional<Sala> getById(Integer id) {
 		return salaRepository.findById(id);
 	}
+	
+	public Optional<List<Asiento>> getAsientosBySalaId(Integer salaId) {
+        Optional<Sala> salaOpt = salaRepository.findById(salaId);
+        return salaOpt.map(Sala::getAsientos); // Devuelve los asientos de la sala si existe
+    }
 
 	// Actualizar un sala existente
 	public Optional<Sala> update(Integer id, Sala salaDetails) {

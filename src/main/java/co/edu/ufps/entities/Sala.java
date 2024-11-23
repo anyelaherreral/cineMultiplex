@@ -25,11 +25,11 @@ public class Sala {
 	@Column(name="id")
 	private Integer id;
 	
-	@Column(name="num_asientos")
+	@Column(name="num_asientos", nullable = false)
 	private Integer num_asientos;
 	
 	@ManyToOne
-	@JoinColumn(name="tipo_proyeccion_id")
+	@JoinColumn(name="tipo_proyeccion_id", nullable = false)
 	private TipoProyeccion tipoProyeccion;
 	
 	@OneToMany(mappedBy = "sala", cascade= CascadeType.ALL)

@@ -8,8 +8,13 @@ import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.Boleto;
+import co.edu.ufps.entities.Empleado;
+import co.edu.ufps.entities.Estado;
+import co.edu.ufps.entities.Sala;
 import co.edu.ufps.repositories.AsientoRepository;
 import co.edu.ufps.repositories.BoletoRepository;
+import co.edu.ufps.repositories.EstadoRepository;
+import co.edu.ufps.repositories.SalaRepository;
 
 @Service
 public class AsientoService {
@@ -17,8 +22,9 @@ public class AsientoService {
     @Autowired
     private AsientoRepository asientoRepository;
 
-//    @Autowired
-//    private BoletoRepository boletoRepository;
+    
+    @Autowired
+    private SalaRepository salaRepository; 
 
     public List<Asiento> list() {
         return asientoRepository.findAll();
@@ -27,77 +33,72 @@ public class AsientoService {
     public Asiento create(Asiento asiento) {
         return asientoRepository.save(asiento);
     }
-
-
-    public Optional<Asiento> getById(Integer id) {
-        return asientoRepository.findById(id);
+    
+    public Optional<Asiento> getAsiento(Integer salaId, String letra, String numeroAsiento) {
+        return asientoRepository.findBySalaIdAndLetraAndNumeroAsiento(salaId, letra, numeroAsiento);
     }
+    
+    
+  
+    
+    
+    
+    public Optional<Asiento> update(Integer salaId, String letra, String numeroAsiento, Asiento asientoDetails) {
+        // Buscar el asiento por salaId, letra y numeroAsiento
+    	
+    	    
+    	 System.out.println("Verificando ID de sala: " + salaId);
+    	 
+    	 Sala sala = salaRepository.findById(salaId).orElseThrow(() -> 
+         new RuntimeException("Empleado no encontrado con ID: " + salaId)
+     );
+    	 
+    	 Optional<Asiento> optionalAsiento = asientoRepository.findBySalaIdAndLetraAndNumeroAsiento(salaId, letra, numeroAsiento);
 
-    public Optional<Asiento> update(Integer id, Asiento asientoDetails) {
-        Optional<Asiento> optionalAsiento = asientoRepository.findById(id);
-        if (!optionalAsiento.isPresent()) {
-            return Optional.empty();
-        }
+    	    
+    	    // Buscar el asiento por los valores que has proporcionado
+    	    if (!optionalAsiento.isPresent()) {
+    	        return Optional.empty();  // Si no existe, devolver Optional vacío
+    	    }
+    	    
+    	    Asiento asiento = optionalAsiento.get();
 
-        Asiento asiento = optionalAsiento.get();
-        asiento.setLetra(asientoDetails.getLetra());
-        asiento.setEstado(asientoDetails.getEstado());
-
+    	    // Verificar si se pasó un valor para actualizar y solo actualizar esos campos
+    	    if (asientoDetails.getLetra() != null && !asientoDetails.getLetra().isEmpty()) {
+    	        asiento.setLetra(asientoDetails.getLetra());
+    	    }
+    	    if (asientoDetails.getNumeroAsiento() != null && !asientoDetails.getNumeroAsiento().isEmpty()) {
+    	        asiento.setNumeroAsiento(asientoDetails.getNumeroAsiento());
+    	    }
+    	    if (asientoDetails.getEstado() != null) {
+    	        asiento.setEstado(asientoDetails.getEstado());
+    	    }
+    	    if (asientoDetails.getSala() != null) {
+    	        asiento.setSala(asientoDetails.getSala());
+    	    }
+        
+        // Guardamos y devolvemos el asiento actualizado
         return Optional.of(asientoRepository.save(asiento));
     }
 
-    /**
-     * Elimina un asiento por su ID.
-     * 
-     * @param id ID del asiento a eliminar.
-     * @return true si el asiento fue eliminado, false si no existe.
-     */
-    public boolean delete(Integer id) {
-        if (!asientoRepository.existsById(id)) {
-            return false;
-        }
-        asientoRepository.deleteById(id);
-        return true;
-    }
 
-//    public Asiento addBoleto(Integer id, Integer boletoId) {
-//        Optional<Asiento> asientoOpt = asientoRepository.findById(id);
-//        if (asientoOpt.isPresent()) {
-//            Asiento asiento = asientoOpt.get();
-//            Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
-//            boletoOpt.ifPresent(asiento::addBoleto);
-//            return asientoRepository.save(asiento);
-//        }
-//        return null;
-//    }
 
-//    public List<Asiento> findBySala(Integer salaId) {
-//        return asientoRepository.findBySalaId(salaId);
-//    }
-
-    public List<Asiento> updateEstadoMultiple(List<Integer> ids, String nuevoEstado) {
-        List<Asiento> asientos = asientoRepository.findAllById(ids);
-        asientos.forEach(asiento -> asiento.getEstado().setDescripcion(nuevoEstado));
-        return asientoRepository.saveAll(asientos);
-    }
-
-    public boolean isAvailable(Integer id) {
-        Optional<Asiento> asiento = asientoRepository.findById(id);
-        return asiento.isPresent() && "Disponible".equalsIgnoreCase(asiento.get().getEstado().getDescripcion());
-    }
-
-    public Optional<Asiento> releaseAsiento(Integer id) {
-        Optional<Asiento> asientoOpt = asientoRepository.findById(id);
+    public boolean deleteBySalaLetraNumero(Integer salaId, String letra, String numeroAsiento) {
+        Optional<Asiento> asientoOpt = asientoRepository.findBySalaIdAndLetraAndNumeroAsiento(salaId, letra, numeroAsiento);
+        
         if (asientoOpt.isPresent()) {
-            Asiento asiento = asientoOpt.get();
-            asiento.getEstado().setDescripcion("Disponible");
-            return Optional.of(asientoRepository.save(asiento));
+            // Eliminar el asiento encontrado
+            asientoRepository.delete(asientoOpt.get());
+            return true; // Se eliminó el asiento
         }
-        return Optional.empty();
+        return false; // No se encontró el asiento para eliminar
     }
     
-    public List<Asiento> findBySalaAndEstado(Integer salaId, String estadoDescripcion) {
-        return asientoRepository.findBySalaIdAndEstadoDescripcion(salaId, estadoDescripcion);
+    public boolean isAvailable(Integer salaId, String letra, String numeroAsiento) {
+        Optional<Asiento> asientoOpt = asientoRepository.findBySalaIdAndLetraAndNumeroAsiento(salaId, letra, numeroAsiento);
+        
+        // Verificar si el asiento existe y está disponible
+        return asientoOpt.isPresent() && "Disponible".equalsIgnoreCase(asientoOpt.get().getEstado().getDescripcion());
     }
 
     

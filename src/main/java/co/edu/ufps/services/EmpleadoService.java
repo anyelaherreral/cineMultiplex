@@ -36,7 +36,7 @@ public class EmpleadoService {
 	
 
 	// Obtener un empleado por ID
-	public List<Empleado> getByDocumento(String documento) {
+	public Optional<Empleado> getByDocumento(String documento) {
 		return empleadoRepository.findByDocumento(documento);
 	}
 

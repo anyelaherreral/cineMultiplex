@@ -20,15 +20,15 @@ public class PedidoSnackPromocion {
     private Integer id;
 
 	@ManyToOne
-    @JoinColumn(name = "promocion_id", unique = true)
+    @JoinColumn(name = "promocion_id")
     private Promocion promSnack;
 	
     @ManyToOne
-    @JoinColumn(name = "pedido_id", unique = true)
+    @JoinColumn(name = "pedido_id")
     private Pedido pedidoSnack;
     
     @ManyToOne
-    @JoinColumn(name = "pedido_snack_id", unique = true)
+    @JoinColumn(name = "pedido_snack_id")
     private Snack snacks;
 
     

@@ -39,6 +39,11 @@ public class EmpleadoController {
 	public List<Empleado> list() {
 		return empleadoService.list();
 	}
+	
+	@GetMapping("/{documento}")
+	public Optional<Empleado> getByDocumento(@PathVariable String documento) {
+		return  empleadoService.getByDocumento(documento);
+	}
 
 
 	@PostMapping
@@ -53,40 +58,30 @@ public class EmpleadoController {
 		return ResponseEntity.ok(nuevoEmpleado); // Devolvemos el empleado creado
 	}
 	
-	// EmpleadoController.java
+
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, String>> login(@RequestBody Empleado loginRequest) {
-	    // Obtener empleado por documento
-	    List<Empleado> empleados = empleadoService.getByDocumento(loginRequest.getDocumento());
+	    Optional<Empleado> empleadoOpt = empleadoService.getByDocumento(loginRequest.getDocumento());
 
-	    if (empleados.isEmpty()) {
+	    if (empleadoOpt.isEmpty()) {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 	                .body(Collections.singletonMap("message", "Empleado no encontrado"));
 	    }
 
-	    Empleado empleado = empleados.get(0);
+	    Empleado empleado = empleadoOpt.get();
 
-	    // Verificar que la contraseña sea correcta
 	    if (!empleado.getContrasena().equals(loginRequest.getContrasena())) {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 	                .body(Collections.singletonMap("message", "Contraseña incorrecta"));
 	    }
 
-	    // Crear un mapa con el nombre y rol del empleado
 	    Map<String, String> response = new HashMap<>();
 	    response.put("nombre", empleado.getNombre());
 	    response.put("rol", empleado.getRol().getDescripcion());
 
-	    return ResponseEntity.ok(response); // Devuelve el nombre y rol del empleado
+	    return ResponseEntity.ok(response); 
 	}
 
-
-
-	@GetMapping("/{documento}")
-	public List<Empleado> getByDocumento(@PathVariable String documento) {
-		List<Empleado> empleados = empleadoService.getByDocumento(documento);
-		return empleados;
-	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Empleado> update(@PathVariable Integer id, @RequestBody Empleado EmpleadoDetails) {

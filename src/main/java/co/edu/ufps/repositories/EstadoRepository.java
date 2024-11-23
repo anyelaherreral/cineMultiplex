@@ -11,5 +11,5 @@ import co.edu.ufps.entities.MetodoPago;
 
 @Repository
 public interface EstadoRepository extends JpaRepository<Estado,Integer>{
-//	Optional<Estado> findByDescripcion(String descripcion);
+	Optional<Estado> findByDescripcion(String descripcion);
 }

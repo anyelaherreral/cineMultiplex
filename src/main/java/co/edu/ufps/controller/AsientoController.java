@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ufps.entities.Asiento;
@@ -35,72 +34,50 @@ public class AsientoController {
         return asientoService.create(asiento);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Asiento> getById(@PathVariable Integer id) {
-        Optional<Asiento> asiento = asientoService.getById(id);
-        return asiento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/sala/{salaId}/letra/{letra}/numero/{numeroAsiento}")
+    public ResponseEntity<Asiento> getAsientoBySalaAndLetraAndNumero(
+            @PathVariable Integer salaId,
+            @PathVariable String letra,
+            @PathVariable String numeroAsiento) {
+
+        Optional<Asiento> asientoOpt = asientoService.getAsiento(salaId, letra, numeroAsiento);
+        return asientoOpt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Asiento> update(@PathVariable Integer id, @RequestBody Asiento asientoDetails) {
-        Optional<Asiento> updatedAsiento = asientoService.update(id, asientoDetails);
+    @PutMapping("/{salaId}/{letra}/{numeroAsiento}")
+    public ResponseEntity<Asiento> updateAsiento(@PathVariable Integer salaId,
+                                                 @PathVariable String letra,
+                                                 @PathVariable String numeroAsiento,
+                                                 @RequestBody Asiento asientoDetails) {
+        Optional<Asiento> updatedAsiento = asientoService.update(salaId, letra, numeroAsiento, asientoDetails);
         return updatedAsiento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        boolean deleted = asientoService.delete(id);
-        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-    }
 
-//    /**
-//     * Asocia un boleto a un asiento.
-//     *
-//     * @param id ID del asiento.
-//     * @param boletoId ID del boleto a asociar.
-//     * @return El asiento actualizado con el boleto asociado.
-//     */
-//    @PostMapping("/{id}/boletos/{boletoId}")
-//    public ResponseEntity<Asiento> addBoleto(@PathVariable Integer id, @PathVariable Integer boletoId) {
-//        Asiento updatedAsiento = asientoService.addBoleto(id, boletoId);
-//        return updatedAsiento != null ? ResponseEntity.ok(updatedAsiento) : ResponseEntity.notFound().build();
-//    }
-
-//    /**
-//     * Busca todos los asientos de una sala específica.
-//     *
-//     * @param salaId ID de la sala.
-//     * @return Lista de asientos en la sala.
-//     */
-//    @GetMapping("/sala/{salaId}")
-//    public List<Asiento> findBySala(@PathVariable Integer salaId) {
-//        return asientoService.findBySala(salaId);
-//    }
-
-
-    @PutMapping("/estado")
-    public List<Asiento> updateEstadoMultiple(@RequestBody List<Integer> ids, @RequestBody String nuevoEstado) {
-        return asientoService.updateEstadoMultiple(ids, nuevoEstado);
-    }
-
-    @GetMapping("/{id}/disponible")
-    public ResponseEntity<Boolean> isAvailable(@PathVariable Integer id) {
-        boolean available = asientoService.isAvailable(id);
-        return ResponseEntity.ok(available);
-    }
-
-    @PutMapping("/{id}/liberar")
-    public ResponseEntity<Asiento> releaseAsiento(@PathVariable Integer id) {
-        Optional<Asiento> releasedAsiento = asientoService.releaseAsiento(id);
-        return releasedAsiento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-    
-    @GetMapping("/SalaYEstado")
-    public List<Asiento> findBySalaAndEstado(@RequestParam Integer salaId,  @RequestParam String estadoDescripcion) {
-        return asientoService.findBySalaAndEstado(salaId, estadoDescripcion);
-    }
-    
     
 
+    @DeleteMapping("/sala/{salaId}/letra/{letra}/numero/{numeroAsiento}")
+    public ResponseEntity<Void> deleteAsiento(@PathVariable Integer salaId,
+                                              @PathVariable String letra, 
+                                              @PathVariable String numeroAsiento) {
+        // Llamar al servicio para eliminar el asiento
+        boolean deleted = asientoService.deleteBySalaLetraNumero(salaId, letra, numeroAsiento);
+        
+        if (deleted) {
+            return ResponseEntity.noContent().build(); // Devuelve un 204 No Content si se eliminó correctamente
+        } else {
+            return ResponseEntity.notFound().build(); // Devuelve un 404 Not Found si no se encontró el asiento
+        }
+    }
+
+    @GetMapping("/sala/{salaId}/letra/{letra}/numero/{numeroAsiento}/disponible")
+    public ResponseEntity<Boolean> isAvailable(@PathVariable Integer salaId,
+                                               @PathVariable String letra, 
+                                               @PathVariable String numeroAsiento) {
+        // Llamar al servicio para verificar si el asiento está disponible en la sala
+        boolean available = asientoService.isAvailable(salaId, letra, numeroAsiento);
+
+        return ResponseEntity.ok(available); // Devuelve 'true' o 'false' dependiendo de la disponibilidad
+    }
    
 }
