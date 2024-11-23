@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.ufps.entities.Boleto;
 import co.edu.ufps.entities.Estado;
+import co.edu.ufps.entities.CategoriaBoleto;
+import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.repositories.BoletoRepository;
 import co.edu.ufps.repositories.EstadoRepository;
@@ -21,9 +24,10 @@ public class BoletoService {
 
     @Autowired
     private AsientoRepository asientoRepository;
-
+    
     @Autowired
     private EstadoRepository estadoRepository;
+
 
     public List<Boleto> list() {
         return boletoRepository.findAll();
@@ -99,6 +103,10 @@ public class BoletoService {
         }
         return null;
     }
-
-
+    
+    
+    
 }
+
+
+

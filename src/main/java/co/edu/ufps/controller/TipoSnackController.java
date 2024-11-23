@@ -58,7 +58,7 @@ public class TipoSnackController{
 	
 	
 	@PostMapping("/{id}/add_snacks/{snackId}")
-	public TipoSnack create(@PathVariable Integer id, @PathVariable Integer snackId) {
+	public TipoSnack create(@PathVariable Integer id, @PathVariable String snackId) {
 		TipoSnack nuevaTipoSnack = tipoSnackService.addSnack(id, snackId);
 		return nuevaTipoSnack;
 	}

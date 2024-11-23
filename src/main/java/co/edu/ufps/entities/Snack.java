@@ -22,12 +22,11 @@ import lombok.Data;
 public class Snack {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private Integer id;
+	@Column(name="id", length=50)
+	private String id;
 	
-	@Column(name="nombre", length=70)
-	private String nombre;
+	@Column(name="descripcion", length=200)
+	private String descripcion;
 	
 	@Column(name="precio")
 	private Float precio;

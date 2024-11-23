@@ -22,11 +22,11 @@ public class Boleto {
 	private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name="asiento_id", unique = true)
+	@JoinColumn(name="asiento_id")
 	private Asiento asiento;
 	
 	@ManyToOne
-	@JoinColumn(name="funcion_id", unique = true)
+	@JoinColumn(name="funcion_id")
 	private Funcion funcion;
 	
 	@ManyToOne

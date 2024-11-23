@@ -60,7 +60,7 @@ public class TipoSnackService {
 		return true;
 	}
 	
-	public TipoSnack addSnack(Integer id, Integer snackId) {
+	public TipoSnack addSnack(Integer id, String snackId) {
 
 		Optional<TipoSnack> tipoSnackOpt = tipoSnackRepository.findById(id);
 

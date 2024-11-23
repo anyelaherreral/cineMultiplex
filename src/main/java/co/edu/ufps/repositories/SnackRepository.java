@@ -7,6 +7,6 @@ import co.edu.ufps.entities.Snack;
 
 
 @Repository
-public interface SnackRepository extends JpaRepository<Snack,Integer>{
+public interface SnackRepository extends JpaRepository<Snack,String>{
 
 }

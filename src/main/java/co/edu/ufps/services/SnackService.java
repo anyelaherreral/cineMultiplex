@@ -37,12 +37,12 @@ public class SnackService {
 	}
 
 	// Obtener un snack por ID
-	public Optional<Snack> getByDocumento(Integer documento) {
-		return snackRepository.findById(documento);
+	public Optional<Snack> getByDocumento(String id) {
+		return snackRepository.findById(id);
 	}
 
 	// Actualizar un snack existente
-	public Optional<Snack> update(Integer id, Snack snackDetails) {
+	public Optional<Snack> update(String id, Snack snackDetails) {
 		Optional<Snack> optionalsnack = snackRepository.findById(id);
 		if (!optionalsnack.isPresent()) {
 			return Optional.empty();
@@ -51,7 +51,7 @@ public class SnackService {
 		Snack snack = optionalsnack.get();
 
 		// Actualiza otros campos según sea necesario
-		snack.setNombre(snack.getNombre());
+		snack.setDescripcion(snack.getDescripcion());
 		snack.setPrecio(snack.getPrecio());
 		snack.setCantidadDisponible(snackDetails.getCantidadDisponible());
 
@@ -59,7 +59,7 @@ public class SnackService {
 	}
 
 	// Eliminar un snack por ID
-	public boolean delete(Integer id) {
+	public boolean delete(String id) {
 		if (!snackRepository.existsById(id)) {
 			return false;
 		}
@@ -68,7 +68,7 @@ public class SnackService {
 		return true;
 	}
 	
-	public Snack addSnackPromocion(Integer id, Integer snackPromocionId) {
+	public Snack addSnackPromocion(String id, Integer snackPromocionId) {
 
 		Optional<Snack> snackOpt = snackRepository.findById(id);
 
@@ -83,7 +83,7 @@ public class SnackService {
 		return null;
 	}
 	
-	public Snack addPedidoSnackPromocion(Integer id, Integer pedidoSnackPromocionId) {
+	public Snack addPedidoSnackPromocion(String id, Integer pedidoSnackPromocionId) {
 
 		Optional<Snack> snackOpt = snackRepository.findById(id);
 

@@ -34,33 +34,33 @@ public class SnackController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Snack> getById(@PathVariable Integer id) {
+    public ResponseEntity<Snack> getById(@PathVariable String id) {
     	Optional<Snack> snack = snackService.getByDocumento(id);
         return snack.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Snack> update(@PathVariable Integer id, @RequestBody Snack snackDetails) {
+    public ResponseEntity<Snack> update(@PathVariable String id, @RequestBody Snack snackDetails) {
         Optional<Snack> updatedSnack = snackService.update(id, snackDetails);
         return updatedSnack.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         boolean deleted = snackService.delete(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
  // Agregar una promoción a un snack
     @PostMapping("/{id}/add_snack_promocion/{snackPromocionId}")
-    public ResponseEntity<Snack> addSnackPromocion(@PathVariable Integer id, @PathVariable Integer snackPromocionId) {
+    public ResponseEntity<Snack> addSnackPromocion(@PathVariable String id, @PathVariable Integer snackPromocionId) {
         Snack updatedSnack = snackService.addSnackPromocion(id, snackPromocionId);
         return updatedSnack != null ? ResponseEntity.ok(updatedSnack) : ResponseEntity.notFound().build();
     }
 
     // Agregar un pedido de promoción a un snack
     @PostMapping("/{id}/add_pedido_snack_promocion/{pedidoSnackPromocionId}")
-    public ResponseEntity<Snack> addPedidoSnackPromocion(@PathVariable Integer id, @PathVariable Integer pedidoSnackPromocionId) {
+    public ResponseEntity<Snack> addPedidoSnackPromocion(@PathVariable String id, @PathVariable Integer pedidoSnackPromocionId) {
         Snack updatedSnack = snackService.addPedidoSnackPromocion(id, pedidoSnackPromocionId);
         return updatedSnack != null ? ResponseEntity.ok(updatedSnack) : ResponseEntity.notFound().build();
     }

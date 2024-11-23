@@ -48,3 +48,4 @@ public class Promocion {
 	@JsonIgnore
 	private List<PedidoSnackPromocion> pedidoSnackPromociones;
 }
+

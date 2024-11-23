@@ -30,5 +30,4 @@ public class SnackPromocion {
     @JoinColumn(name = "promocion_id")
     private Promocion promo;
 
-    
 }

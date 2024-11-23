@@ -100,6 +100,13 @@ public class AsientoService {
         // Verificar si el asiento existe y está disponible
         return asientoOpt.isPresent() && "Disponible".equalsIgnoreCase(asientoOpt.get().getEstado().getDescripcion());
     }
-
+    
+    public List<Asiento> findBySalaId(Integer salaId){
+		return asientoRepository.findBySalaId(salaId);
+    }
+    
+//    public List<Asiento> obtenerAsientosPorSalaYFuncion(Integer salaId, Integer funcionId) {
+//        return asientoRepository.findBySalaAndFuncion(salaId, funcionId);
+//    }
     
 }

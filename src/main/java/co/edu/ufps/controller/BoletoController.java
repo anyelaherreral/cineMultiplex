@@ -9,7 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import co.edu.ufps.entities.Boleto;
+import co.edu.ufps.entities.Funcion;
+import co.edu.ufps.entities.CategoriaBoleto;
 import co.edu.ufps.services.BoletoService;
+import co.edu.ufps.services.CategoriaBoletoService;
+import co.edu.ufps.services.FuncionService;
 
 @RestController
 @RequestMapping("/boletos")
@@ -17,6 +21,12 @@ public class BoletoController {
 
 	@Autowired
 	private BoletoService boletoService;
+	
+	@Autowired
+	private FuncionService funcionService;
+	
+	@Autowired
+	private CategoriaBoletoService categoriaBoletoService;
 
 
 	@GetMapping
@@ -56,4 +66,6 @@ public class BoletoController {
 		Boleto updatedBoleto = boletoService.addAsientoToBoleto(boletoId, asientoId);
 		return updatedBoleto != null ? ResponseEntity.ok(updatedBoleto) : ResponseEntity.notFound().build();
 	}
+	
+	
 }

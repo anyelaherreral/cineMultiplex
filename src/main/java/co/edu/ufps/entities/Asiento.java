@@ -27,11 +27,11 @@ public class Asiento {
 	@Column(name="id")
 	private Integer id;
 	
+
 	@Column(name="letra", length =1, nullable = false)
 	private String letra;
 	@Column(name="numero_asiento", length =2, nullable = false)
 	private String numeroAsiento;
-		
 	
 	@ManyToOne
 	@JoinColumn(name="estado_id")

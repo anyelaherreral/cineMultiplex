@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ufps.entities.Asiento;
@@ -53,9 +54,6 @@ public class AsientoController {
         return updatedAsiento.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-
-    
-
     @DeleteMapping("/sala/{salaId}/letra/{letra}/numero/{numeroAsiento}")
     public ResponseEntity<Void> deleteAsiento(@PathVariable Integer salaId,
                                               @PathVariable String letra, 
@@ -79,5 +77,11 @@ public class AsientoController {
 
         return ResponseEntity.ok(available); // Devuelve 'true' o 'false' dependiendo de la disponibilidad
     }
-   
+
+    
+    @GetMapping("/sala/{salaId}")
+    public List<Asiento> getAsientosBySalaId(@PathVariable Integer salaId) {
+        return asientoService.findBySalaId(salaId);
+    }
+    
 }
