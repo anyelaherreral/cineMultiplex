@@ -14,6 +14,7 @@ import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.repositories.BoletoRepository;
 import co.edu.ufps.repositories.EstadoRepository;
+import co.edu.ufps.repositories.FuncionRepository;
 import co.edu.ufps.repositories.AsientoRepository;
 
 @Service
@@ -27,6 +28,9 @@ public class BoletoService {
     
     @Autowired
     private EstadoRepository estadoRepository;
+    
+    @Autowired
+    private FuncionRepository funcionRepository;
 
 
     public List<Boleto> list() {
@@ -93,33 +97,44 @@ public class BoletoService {
         return true;
     }
     
-    public Boleto addAsientoToBoleto(Integer boletoId, Integer asientoId) {
-        // Buscar el boleto
+    public Boleto addAsientoToBoleto(Integer boletoId, Integer asientoId, Integer funcionId) {
+        // Buscar el boleto por ID
         Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
         if (boletoOpt.isEmpty()) {
             throw new IllegalArgumentException("El boleto con ID " + boletoId + " no existe.");
         }
-     // Buscar el asiento
+
+        // Buscar el asiento por ID
         Optional<Asiento> asientoOpt = asientoRepository.findById(asientoId);
         if (asientoOpt.isEmpty()) {
             throw new IllegalArgumentException("El asiento con ID " + asientoId + " no existe.");
         }
-        Boleto boleto = boletoOpt.get();
-        Asiento asiento = asientoOpt.get();
 
-        // Verificar si el asiento está disponible
-        if (!"Disponible".equalsIgnoreCase(asiento.getEstado().getDescripcion())) {
-            throw new IllegalStateException("El asiento no está disponible.");
+        // Buscar la función por ID
+        Optional<Funcion> funcionOpt = funcionRepository.findById(funcionId);
+        if (funcionOpt.isEmpty()) {
+            throw new IllegalArgumentException("La función con ID " + funcionId + " no existe.");
         }
 
-        // Asignar el asiento al boleto
+        Boleto boleto = boletoOpt.get();
+        Asiento asiento = asientoOpt.get();
+        Funcion funcion = funcionOpt.get();
+
+        // Verificar si el asiento está disponible para la función específica
+        boolean asientoOcupado = boletoRepository.existsByFuncionIdAndAsientoId(funcionId, asientoId);
+        if (asientoOcupado) {
+            throw new IllegalStateException("El asiento " + asientoId + " ya está ocupado para la función " + funcionId + ".");
+        }
+
+        // Asignar el asiento al boleto y establecer la función
         boleto.setAsiento(asiento);
+        boleto.setFuncion(funcion);
 
         // Cambiar el estado del asiento a 'Ocupado'
         asiento.getEstado().setDescripcion("Ocupado");
         asientoRepository.save(asiento);
 
-        // Guardar el boleto actualizado
+        // Guardar y devolver el boleto actualizado
         return boletoRepository.save(boleto);
     }
     

@@ -40,14 +40,14 @@ public class Pedido {
 	@ManyToOne 
 	@JoinColumn(name="metodo_pago_id")
 	private MetodoPago metodoPago;
-	
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<PedidoBoletoPromocion> pedidoBoletoPromociones;
-	
+		
 	@OneToMany(mappedBy = "pedidoSnack", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<PedidoSnackPromocion> pedidoSnackPromociones;
+	
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Boleto> boletos;
 	
 	
 }

@@ -5,13 +5,16 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.entities.Pelicula;
+import co.edu.ufps.entities.Sala;
 import co.edu.ufps.repositories.FuncionRepository;
 import co.edu.ufps.repositories.PeliculaRepository;
 
@@ -95,5 +98,30 @@ public class FuncionService {
 		}
 		return fechasDisponibles;
 	}
+	
+	public List<Asiento> obtenerAsientosDeSalaPorFuncion(Integer funcionId) {
+        // Buscar la función por su ID
+        Funcion funcion = funcionRepository.findById(funcionId)
+                .orElseThrow(() -> new IllegalArgumentException("La función con ID " + funcionId + " no existe."));
+
+        // Obtener la sala asociada a la función
+        Sala sala = funcion.getSala(); // Suponiendo que Funcion tiene una relación con Sala
+
+        // Verificar que la sala existe
+        if (sala == null) {
+            throw new IllegalArgumentException("La sala asociada a la función no existe.");
+        }
+
+        // Obtener los asientos de la sala
+        List<Asiento> asientosSala = sala.getAsientos(); // Suponiendo que Sala tiene una lista de Asientos
+
+        // Filtrar solo los asientos que están disponibles (estado = 'Disponible')
+        List<Asiento> asientosDisponibles = asientosSala.stream()
+                .filter(asiento -> "Disponible".equalsIgnoreCase(asiento.getEstado().getDescripcion()))
+                .collect(Collectors.toList());
+
+        // Devolver los asientos disponibles de la sala asociada a la función
+        return asientosDisponibles;
+    }
 
 }

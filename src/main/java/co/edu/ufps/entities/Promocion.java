@@ -40,10 +40,6 @@ public class Promocion {
 	@JsonIgnore
 	private List<SnackPromocion> snackPromociones;
 	
-	@OneToMany(mappedBy = "prom", cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<PedidoBoletoPromocion> pedidoBoletoPromociones;
-	
 	@OneToMany(mappedBy = "promSnack", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<PedidoSnackPromocion> pedidoSnackPromociones;

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.services.FuncionService;
 
@@ -80,6 +82,15 @@ public class FuncionController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(fechasDisponibles);
+    }
+	
+	@GetMapping("/{funcionId}/asientos")
+    public ResponseEntity<List<Asiento>> obtenerAsientosDeSalaPorFuncion(@PathVariable Integer funcionId) {
+        // Llamar al servicio para obtener los asientos disponibles de la sala asociada a la función
+        List<Asiento> asientos = funcionService.obtenerAsientosDeSalaPorFuncion(funcionId);
+
+        // Retornar la lista de asientos con estado 'Disponible' de la sala de la función
+        return new ResponseEntity<>(asientos, HttpStatus.OK);
     }
 
 }

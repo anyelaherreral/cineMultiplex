@@ -61,17 +61,23 @@ public class BoletoController {
 		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 	}
 
-	@PostMapping("/{boletoId}/asientos/{asientoId}")
-	public ResponseEntity<?> addAsientoToBoleto(@PathVariable Integer boletoId, @PathVariable Integer asientoId) {
-	    try {
-	        Boleto updatedBoleto = boletoService.addAsientoToBoleto(boletoId, asientoId);
-	        return ResponseEntity.ok(updatedBoleto);
-	    } catch (IllegalArgumentException | IllegalStateException e) {
-	        return ResponseEntity.badRequest().body(e.getMessage());
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor.");
-	    }
-	}
+	@PutMapping("/{boletoId}/asignar-asiento")
+    public ResponseEntity<Boleto> asignarAsiento(
+            @PathVariable Integer boletoId,
+            @RequestParam Integer asientoId,
+            @RequestParam Integer funcionId) {
+
+        try {
+            Boleto boletoActualizado = boletoService.addAsientoToBoleto(boletoId, asientoId, funcionId);
+            return ResponseEntity.ok(boletoActualizado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null); // Error de cliente
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Conflicto
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Error inesperado
+        }
+    }
 	
 	
 }

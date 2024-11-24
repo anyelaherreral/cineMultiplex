@@ -27,6 +27,9 @@ public class Cliente {
 	@Column(name="nombre", length=200)
 	private String nombre;
 	
+	@Column(name="documento", length=20)
+	private String documento;
+	
 	@Column(name="telefono", length=20)
 	private String telefono;
 	

@@ -33,6 +33,8 @@ public class Boleto {
 	@JoinColumn(name="categoria_boleto_id")
 	private CategoriaBoleto categoriaBoleto;
 	
-	@OneToOne(mappedBy = "boleto")
-    private PedidoBoletoPromocion pedidoBoletoPromociones;
+	@ManyToOne
+	@JoinColumn(name="pedido_id")
+	private Pedido pedido;
+	
 }

@@ -35,6 +35,7 @@ public class CategoriaBoleto {
 	private List<Boleto> boletos;
 	
 	@OneToMany(mappedBy = "categoriaBoleto", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<CategoriaBoletoPromocion> categoriaBoletoPromocion;
 	
 //	@ManyToMany
