@@ -64,7 +64,7 @@ public class SalaService {
 		Sala sala = optionalsala.get();
 
 		// Actualiza otros campos según sea necesario
-		sala.setNum_asientos(.getNum_asientos());
+		sala.setNum_asientos(salaDetails.getNum_asientos());
 		sala.setTipoProyeccion(salaDetails.getTipoProyeccion());
 
 		return Optional.of(salaRepository.save(sala));
