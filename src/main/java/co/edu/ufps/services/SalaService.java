@@ -64,7 +64,7 @@ public class SalaService {
 		Sala sala = optionalsala.get();
 
 		// Actualiza otros campos según sea necesario
-		sala.setNum_asientos(salaDetails.getNum_asientos());
+		sala.setNum_asientos(.getNum_asientos());
 		sala.setTipoProyeccion(salaDetails.getTipoProyeccion());
 
 		return Optional.of(salaRepository.save(sala));
@@ -111,12 +111,9 @@ public class SalaService {
 	}
 	
 	
-	public List<Sala> obtenerSalasDisponibles(LocalDate fecha, String hora, Integer peliculaId) {
-        
+	public List<Sala> obtenerSalasDisponibles(LocalDate fecha, String hora, Integer peliculaId) {  
         LocalTime horaInicio = LocalTime.parse(hora);
         LocalDateTime fechaHoraInicio = LocalDateTime.of(fecha, horaInicio); 
-
-    
         Pelicula pelicula = peliculaRepository.findById(peliculaId)
             .orElseThrow(() -> new RuntimeException("Película no encontrada"));
 
@@ -127,7 +124,6 @@ public class SalaService {
         LocalDateTime horaFin = fechaHoraInicio.plusMinutes(duracionPelicula);
         List<Funcion> funciones = funcionRepository.findByFecha(fecha);
         List<Sala> salasDisponibles = new ArrayList<>();
-
         for (Sala sala : salaRepository.findAll()) {
             boolean salaDisponible = true;
 
@@ -146,12 +142,10 @@ public class SalaService {
                     }
                 }
             }
-
             if (salaDisponible) {
                 salasDisponibles.add(sala);
             }
         }
-
         return salasDisponibles;
     }
 	
