@@ -1,5 +1,6 @@
 package co.edu.ufps.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,6 +65,20 @@ public class SalaController {
 		boolean deleted = salaService.delete(id);
 		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 	}
+	
+	 @GetMapping("/salas_disponibles/{fecha}/{hora}/{pelicula}")
+	    public ResponseEntity<List<Sala>> obtenerSalasDisponibles(
+	            @PathVariable LocalDate fecha,
+	            @PathVariable String hora, @PathVariable Integer pelicula) {
+	        
+	        List<Sala> salasDisponibles = salaService.obtenerSalasDisponibles(fecha, hora,pelicula);
+	        
+	        if (salasDisponibles.isEmpty()) {
+	            return ResponseEntity.noContent().build();
+	        }
+	        
+	        return ResponseEntity.ok(salasDisponibles);
+	    }
 	
 
 }

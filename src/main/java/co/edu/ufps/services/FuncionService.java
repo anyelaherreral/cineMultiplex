@@ -65,18 +65,16 @@ public class FuncionService {
 		if (!optionalfuncion.isPresent()) {
 			return Optional.empty();
 		}
-
 		Funcion funcion = optionalfuncion.get();
-
-		// Actualiza otros campos según sea necesario
-		// funcion.setHorario(funcion.getHorario());
-		funcion.setHorario(funcion.getHorario());
-		funcion.setSala(funcion.getSala());
-
+		funcion.setFecha(funcionDetails.getFecha());
+		funcion.setHorario(funcionDetails.getHorario());
+		funcion.setPelicula(funcionDetails.getPelicula());
+		funcion.setSala(funcionDetails.getSala());
+		
 		return Optional.of(funcionRepository.save(funcion));
 	}
 
-	// Eliminar un funcion por ID
+
 	public boolean delete(Integer id) {
 		if (!funcionRepository.existsById(id)) {
 			return false;

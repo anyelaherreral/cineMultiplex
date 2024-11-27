@@ -1,9 +1,11 @@
 package co.edu.ufps.entities;
 
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -28,7 +30,8 @@ public class Pedido {
 	private Integer id;
 	
 	@Column(name="fecha")
-	private Date fecha;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate fecha;
 	
 	@Column(name="total")
 	private Float total;

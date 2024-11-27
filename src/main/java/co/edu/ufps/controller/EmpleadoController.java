@@ -39,12 +39,11 @@ public class EmpleadoController {
 	public List<Empleado> list() {
 		return empleadoService.list();
 	}
-	
+
 	@GetMapping("/{documento}")
 	public Optional<Empleado> getByDocumento(@PathVariable String documento) {
-		return  empleadoService.getByDocumento(documento);
+		return empleadoService.getByDocumento(documento);
 	}
-
 
 	@PostMapping
 	public ResponseEntity<Empleado> create(@RequestBody Empleado empleadoRequest) {
@@ -57,31 +56,29 @@ public class EmpleadoController {
 
 		return ResponseEntity.ok(nuevoEmpleado); // Devolvemos el empleado creado
 	}
-	
 
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, String>> login(@RequestBody Empleado loginRequest) {
-	    Optional<Empleado> empleadoOpt = empleadoService.getByDocumento(loginRequest.getDocumento());
+		Optional<Empleado> empleadoOpt = empleadoService.getByDocumento(loginRequest.getDocumento());
 
-	    if (empleadoOpt.isEmpty()) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                .body(Collections.singletonMap("message", "Empleado no encontrado"));
-	    }
+		if (empleadoOpt.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body(Collections.singletonMap("message", "Empleado no encontrado"));
+		}
 
-	    Empleado empleado = empleadoOpt.get();
+		Empleado empleado = empleadoOpt.get();
 
-	    if (!empleado.getContrasena().equals(loginRequest.getContrasena())) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-	                .body(Collections.singletonMap("message", "Contraseña incorrecta"));
-	    }
+		if (!empleado.getContrasena().equals(loginRequest.getContrasena())) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+					.body(Collections.singletonMap("message", "Contraseña incorrecta"));
+		}
 
-	    Map<String, String> response = new HashMap<>();
-	    response.put("nombre", empleado.getNombre());
-	    response.put("rol", empleado.getRol().getDescripcion());
+		Map<String, String> response = new HashMap<>();
+		response.put("nombre", empleado.getNombre());
+		response.put("rol", empleado.getRol().getDescripcion());
 
-	    return ResponseEntity.ok(response); 
+		return ResponseEntity.ok(response);
 	}
-
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Empleado> update(@PathVariable Integer id, @RequestBody Empleado EmpleadoDetails) {
@@ -90,38 +87,42 @@ public class EmpleadoController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id) {
-		boolean deleted = empleadoService.delete(id);
-		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-	}
+	public ResponseEntity<String> eliminarEmpleado(@PathVariable Integer id) {
+        boolean eliminado = empleadoService.delete(id);
+        if (eliminado) {
+            return ResponseEntity.ok("Empleado eliminado exitosamente.");
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                                 .body("No se puede eliminar el empleado porque tiene funciones asociadas.");
+        }
+    }
 
 	@PostMapping("/{id}/add_funcions/{funcionId}")
 	public Empleado create(@PathVariable Integer id, @PathVariable Integer funcionId) {
 		Empleado nuevaTipoPersona = empleadoService.addFuncion(id, funcionId);
 		return nuevaTipoPersona;
 	}
-	
+
 	@PutMapping("/actualizarRol/{empleadoId}")
-    public Empleado actualizarRol(@PathVariable Integer empleadoId, @RequestBody Integer rolId) {
-        return empleadoService.actualizarRol(empleadoId, rolId);
-    }
-	
-	@GetMapping("/{empleadoId}/funciones")
-    public ResponseEntity<List<Funcion>> obtenerFuncionesDeEmpleado(@PathVariable("empleadoId") Integer empleadoId) {
-        List<Funcion> funciones = empleadoService.obtenerFuncionesDeEmpleado(empleadoId);
-        
-        if (funciones.isEmpty()) {
-            return ResponseEntity.noContent().build(); // Retorna 204 No Content si no hay funciones
-        }
-        return ResponseEntity.ok(funciones);
-    }
-	
-	
-	@DeleteMapping("/{empleadoId}/funciones/{funcionId}")
-	public ResponseEntity<Void> eliminarFuncionDeEmpleado(@PathVariable Integer empleadoId, @PathVariable Integer funcionId) {
-	    empleadoService.eliminarFuncionDeEmpleado(empleadoId, funcionId);
-	    return ResponseEntity.noContent().build();
+	public Empleado actualizarRol(@PathVariable Integer empleadoId, @RequestBody Integer rolId) {
+		return empleadoService.actualizarRol(empleadoId, rolId);
 	}
 
+	@GetMapping("/{empleadoId}/funciones")
+	public ResponseEntity<List<Funcion>> obtenerFuncionesDeEmpleado(@PathVariable Integer empleadoId) {
+		List<Funcion> funciones = empleadoService.obtenerFuncionesDeEmpleado(empleadoId);
+
+		if (funciones.isEmpty()) {
+			return ResponseEntity.noContent().build(); // Retorna 204 No Content si no hay funciones
+		}
+		return ResponseEntity.ok(funciones);
+	}
+
+	@DeleteMapping("/{empleadoId}/funciones/{funcionId}")
+	public ResponseEntity<Void> eliminarFuncionDeEmpleado(@PathVariable Integer empleadoId,
+			@PathVariable Integer funcionId) {
+		empleadoService.eliminarFuncionDeEmpleado(empleadoId, funcionId);
+		return ResponseEntity.noContent().build();
+	}
 
 }
