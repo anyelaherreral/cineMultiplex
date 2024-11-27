@@ -138,7 +138,9 @@ public class BoletoService {
         return boletoRepository.save(boleto);
     }
     
-    
+    public List<Asiento> getAsientosByFuncionId(Integer funcionId) {
+        return boletoRepository.findAsientosByFuncionId(funcionId);
+    }
 }
 
 

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.Boleto;
 import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.entities.CategoriaBoleto;
@@ -79,5 +80,12 @@ public class BoletoController {
         }
     }
 	
-	
+	@GetMapping("/funcion/{funcionId}/asientos")
+	public ResponseEntity<List<Asiento>> getAsientosByFuncion(@PathVariable Integer funcionId) {
+	    List<Asiento> asientos = boletoService.getAsientosByFuncionId(funcionId);
+	    if (asientos.isEmpty()) {
+	        return ResponseEntity.noContent().build();
+	    }
+	    return ResponseEntity.ok(asientos);
+	}
 }
