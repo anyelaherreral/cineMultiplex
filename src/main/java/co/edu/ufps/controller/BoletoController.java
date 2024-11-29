@@ -88,4 +88,18 @@ public class BoletoController {
 	    }
 	    return ResponseEntity.ok(asientos);
 	}
+	
+	@PostMapping("/ListaBoletos")
+	public ResponseEntity<List<Boleto>> createBoletos(@RequestBody List<Boleto> boletos) {
+	    try {
+	        // Crear los boletos
+	        List<Boleto> boletosCreados = boletoService.createBoletos(boletos);
+	        
+	        // Devolver los boletos creados con un código de estado 201 (Creado)
+	        return new ResponseEntity<>(boletosCreados, HttpStatus.CREATED);
+	    } catch (Exception e) {
+	        // Si ocurre algún error, devolver un código de estado 500 (Error interno del servidor)
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 }

@@ -64,4 +64,30 @@ public class SnackController {
         Snack updatedSnack = snackService.addPedidoSnackPromocion(id, pedidoSnackPromocionId);
         return updatedSnack != null ? ResponseEntity.ok(updatedSnack) : ResponseEntity.notFound().build();
     }
+    
+    @PatchMapping("/{id}/restar/{cantidad}")
+    public ResponseEntity<Snack> restarCantidadDisponible(
+            @PathVariable("id") String id,
+            @PathVariable("cantidad") Integer cantidadRestar) {
+
+        try {
+            // Llamar al servicio para restar la cantidad del snack
+            Snack snackActualizado = snackService.restarCantidadDisponible(id, cantidadRestar);
+
+            // Si el snack no fue encontrado, retornar 404
+            if (snackActualizado == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            // Retornar el snack actualizado con un código 200 OK
+            return ResponseEntity.ok(snackActualizado);
+        } catch (IllegalArgumentException e) {
+            // Si hay un error en la lógica (como cantidad negativa o no suficiente cantidad), retornar 400
+            return ResponseEntity.badRequest().body(null);
+        } catch (Exception e) {
+            // Capturar cualquier otro error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

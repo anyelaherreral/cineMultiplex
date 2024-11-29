@@ -65,10 +65,6 @@ public class ClienteService {
     }
 
 
-//    public List<Cliente> findByName(String nombre) {
-//        return clienteRepository.findByNombreContainingIgnoreCase(nombre);
-//    }
-
     public Cliente addPedidoToCliente(Integer clienteId, Pedido pedido) {
         Optional<Cliente> clienteOpt = clienteRepository.findById(clienteId);
         if (clienteOpt.isPresent()) {
@@ -79,5 +75,9 @@ public class ClienteService {
             return clienteRepository.save(cliente); // Guarda el cliente actualizado
         }
         return null; // Devuelve null si el cliente no existe
+    }
+    
+    public Optional<Cliente> getByDocumento(String documento) {
+        return clienteRepository.findByDocumento(documento);
     }
 }

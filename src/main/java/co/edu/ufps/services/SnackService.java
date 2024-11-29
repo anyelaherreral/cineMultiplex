@@ -98,4 +98,26 @@ public class SnackService {
 		return null;
 	}
 	
+	// Método en SnackService
+	public Snack restarCantidadDisponible(String id, Integer cantidadRestar) {
+	    Optional<Snack> snackOpt = snackRepository.findById(id);
+	    if (!snackOpt.isPresent()) {
+	        return null;
+	    }
+	    Snack snack = snackOpt.get();
+	    if (cantidadRestar <= 0) {
+	        throw new IllegalArgumentException("La cantidad a restar debe ser mayor que 0.");
+	    }
+
+	    if (snack.getCantidadDisponible() < cantidadRestar) {
+	        throw new IllegalArgumentException("No hay suficiente cantidad disponible para restar.");
+	    }
+
+	    // Restar la cantidad
+	    snack.setCantidadDisponible(snack.getCantidadDisponible() - cantidadRestar);
+
+	    return snackRepository.save(snack);
+	}
+
+	
 }

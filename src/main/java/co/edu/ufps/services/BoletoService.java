@@ -1,5 +1,6 @@
 package co.edu.ufps.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,6 +142,25 @@ public class BoletoService {
     public List<Asiento> getAsientosByFuncionId(Integer funcionId) {
         return boletoRepository.findAsientosByFuncionId(funcionId);
     }
+    
+    public List<Boleto> createBoletos(List<Boleto> boletos) {
+        List<Boleto> boletosCreados = new ArrayList<>();
+
+        // Iterar a través de los boletos y guardarlos
+        for (Boleto boleto : boletos) {
+            try {
+                Boleto boletoCreado = boletoRepository.save(boleto);  // Guardar cada boleto
+                boletosCreados.add(boletoCreado);
+            } catch (Exception e) {
+                // Si ocurre un error al guardar un boleto, lo registramos y continuamos con los demás
+                System.err.println("Error al crear boleto: " + e.getMessage());
+                // Dependiendo de tus necesidades, puedes lanzar una excepción o simplemente registrar el error
+            }
+        }
+
+        return boletosCreados;
+    }
+
 }
 
 

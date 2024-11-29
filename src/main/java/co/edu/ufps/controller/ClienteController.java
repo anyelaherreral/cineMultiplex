@@ -59,16 +59,16 @@ public class ClienteController {
         return pedidos != null ? ResponseEntity.ok(pedidos) : ResponseEntity.notFound().build();
     }
 
-
-//    @GetMapping("/buscar")
-//    public List<Cliente> findClientesByName(@RequestParam String nombre) {
-//        return clienteService.findByName(nombre);
-//    }
-
-
     @PostMapping("/{clienteId}/pedidos")
     public ResponseEntity<Cliente> addPedidoToCliente(@PathVariable Integer clienteId, @RequestBody Pedido pedido) {
         Cliente updatedCliente = clienteService.addPedidoToCliente(clienteId, pedido);
         return updatedCliente != null ? ResponseEntity.ok(updatedCliente) : ResponseEntity.notFound().build();
+    }
+    
+    @GetMapping("/buscar-por-documento")
+    public ResponseEntity<Cliente> getClienteByDocumento(@RequestParam String documento) {
+        Optional<Cliente> cliente = clienteService.getByDocumento(documento);
+        return cliente.map(ResponseEntity::ok)
+                      .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
