@@ -22,7 +22,6 @@ public interface AsientoRepository extends JpaRepository<Asiento,Integer>{
 	 Optional<Asiento> findBySalaIdAndLetraAndNumeroAsientoAndEstadoDescripcion(Integer salaId, String letra, String numeroAsiento, String estadoDescripcion);
 
 	List<Asiento> findBySalaId(Integer salaId);
-//	List<Asiento> findBySalaAndFuncion(Integer salaId, Integer funcionId);
 
 
 }

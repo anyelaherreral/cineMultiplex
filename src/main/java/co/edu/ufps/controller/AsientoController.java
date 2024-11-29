@@ -58,13 +58,13 @@ public class AsientoController {
     public ResponseEntity<Void> deleteAsiento(@PathVariable Integer salaId,
                                               @PathVariable String letra, 
                                               @PathVariable String numeroAsiento) {
-        // Llamar al servicio para eliminar el asiento
+  
         boolean deleted = asientoService.deleteBySalaLetraNumero(salaId, letra, numeroAsiento);
         
         if (deleted) {
-            return ResponseEntity.noContent().build(); // Devuelve un 204 No Content si se eliminó correctamente
+            return ResponseEntity.noContent().build(); 
         } else {
-            return ResponseEntity.notFound().build(); // Devuelve un 404 Not Found si no se encontró el asiento
+            return ResponseEntity.notFound().build(); o
         }
     }
 
