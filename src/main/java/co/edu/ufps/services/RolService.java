@@ -69,7 +69,7 @@ public class RolService {
 		return true;
 	}
 
-	// Eliminar un rol por Descripcion
+
 	@Transactional
 	public boolean deleteByDescripcion(String descripcion) {
 		Optional<Rol> rolOpt = rolRepository.findByDescripcion(descripcion);

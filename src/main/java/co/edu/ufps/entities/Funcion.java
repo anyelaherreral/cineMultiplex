@@ -27,6 +27,7 @@ public class Funcion {
 	@Column(name = "id")
 	private Integer id;
 	
+	@Column(name = "horario")
 	private String horario;
 
 	@Column(name="fecha")

@@ -61,12 +61,14 @@ public class EmpleadoService {
 
 	// Eliminar un empleado por ID
 	public boolean delete(Integer id) {
-		if (!empleadoRepository.existsById(id)) {
-			return false;
-		}
-
-		empleadoRepository.deleteById(id);
-		return true;
+		if (funcionRepository.existsEmpleadoInFunciones(id)) {
+            return false;
+        }
+        if (!empleadoRepository.existsById(id)) {
+            return false; 
+        }
+        empleadoRepository.deleteById(id);
+        return true;
 	}
 	
 	public Empleado addFuncion(Integer id, Integer funcionId) {

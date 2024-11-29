@@ -33,7 +33,7 @@ public class SnackPromocionService {
 		return snackPromocionRepository.findById(documento);
 	}
 
-	// Actualizar un snackPromocion existente
+
 	public Optional<SnackPromocion> update(Integer id, SnackPromocion snackPromocionDetails) {
 		Optional<SnackPromocion> optionalsnackPromocion = snackPromocionRepository.findById(id);
 		if (!optionalsnackPromocion.isPresent()) {
@@ -42,7 +42,7 @@ public class SnackPromocionService {
 
 		SnackPromocion snackPromocion = optionalsnackPromocion.get();
 
-		// Actualiza otros campos según sea necesario
+	
 		snackPromocion.setDescuento(snackPromocionDetails.getDescuento());
 		
 		return Optional.of(snackPromocionRepository.save(snackPromocion));
