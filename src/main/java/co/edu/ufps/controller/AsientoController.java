@@ -64,7 +64,7 @@ public class AsientoController {
         if (deleted) {
             return ResponseEntity.noContent().build(); 
         } else {
-            return ResponseEntity.notFound().build(); o
+            return ResponseEntity.notFound().build(); 
         }
     }
 
