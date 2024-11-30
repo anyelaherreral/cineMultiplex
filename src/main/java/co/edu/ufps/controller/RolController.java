@@ -30,16 +30,16 @@ public class RolController {
 		return rolService.list();
 	}
 
-	@GetMapping("/{id}/empleados") // Podrías usar una ruta más descriptiva
+	@GetMapping("/{id}/empleados")  
 	public ResponseEntity<List<Empleado>> listEmpleados(@PathVariable Integer id) {
 		List<Empleado> empleados = rolService.listEmpleados(id);
 		if (empleados.isEmpty()) {
-			return ResponseEntity.notFound().build(); // Retorna un 404 si no hay empleados para ese rol
+			return ResponseEntity.notFound().build();  
 		}
-		return ResponseEntity.ok(empleados); // Retorna un 200 con la lista de empleados
+		return ResponseEntity.ok(empleados);  
 	}
 
-	@GetMapping("/descripcion/{descripcion}/empleados") // importante rutas / entre mas especifica mejor
+	@GetMapping("/descripcion/{descripcion}/empleados")  
 	public ResponseEntity<List<Empleado>> listEmpleadosDescripcion(@PathVariable String descripcion) {
 		List<Empleado> empleadosDescripcion = rolService.listEmpleadosDescripcion(descripcion);
 		if (empleadosDescripcion.isEmpty()) {

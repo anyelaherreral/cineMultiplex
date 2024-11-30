@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Snack;
-import co.edu.ufps.entities.TipoSnack;
-import co.edu.ufps.entities.MetodoPago;
+import co.edu.ufps.entities.TipoSnack; 
 import co.edu.ufps.repositories.SnackRepository;
 import co.edu.ufps.repositories.TipoSnackRepository;
 
@@ -29,13 +28,11 @@ public class TipoSnackService {
 	public TipoSnack create(TipoSnack tipoSnack) {
 		return tipoSnackRepository.save(tipoSnack);
 	}
-
-	// Obtener un tipoSnack por ID
+ 
 	public Optional<TipoSnack> getById(Integer id) {
 		return tipoSnackRepository.findById(id);
 	}
-
-	// Actualizar un tipoSnack existente
+ 
 	public Optional<TipoSnack> update(Integer id, TipoSnack tipoSnackDetails) {
 		Optional<TipoSnack> optionaltipoSnack = tipoSnackRepository.findById(id);
 		if (!optionaltipoSnack.isPresent()) {
@@ -43,14 +40,12 @@ public class TipoSnackService {
 		}
 
 		TipoSnack tipoSnack = optionaltipoSnack.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		tipoSnack.setDescripcion(tipoSnackDetails.getDescripcion());
 
 		return Optional.of(tipoSnackRepository.save(tipoSnack));
 	}
-
-	// Eliminar un tipoSnack por ID
+ 
 	public boolean delete(Integer id) {
 		if (!tipoSnackRepository.existsById(id)) {
 			return false;

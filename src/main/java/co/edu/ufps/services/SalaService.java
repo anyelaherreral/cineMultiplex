@@ -13,8 +13,7 @@ import org.springframework.stereotype.Service;
 import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.entities.Pelicula;
-import co.edu.ufps.entities.Sala;
-import co.edu.ufps.entities.Sala;
+import co.edu.ufps.entities.Sala; 
 import co.edu.ufps.repositories.AsientoRepository;
 import co.edu.ufps.repositories.FuncionRepository;
 import co.edu.ufps.repositories.PeliculaRepository;
@@ -43,18 +42,16 @@ public class SalaService {
 	public Sala create(Sala sala) {
 		return salaRepository.save(sala);
 	}
-
-	// Obtener un sala por ID
+ 
 	public Optional<Sala> getById(Integer id) {
 		return salaRepository.findById(id);
 	}
 	
 	public Optional<List<Asiento>> getAsientosBySalaId(Integer salaId) {
         Optional<Sala> salaOpt = salaRepository.findById(salaId);
-        return salaOpt.map(Sala::getAsientos); // Devuelve los asientos de la sala si existe
+        return salaOpt.map(Sala::getAsientos);  
     }
-
-	// Actualizar un sala existente
+ 
 	public Optional<Sala> update(Integer id, Sala salaDetails) {
 		Optional<Sala> optionalsala = salaRepository.findById(id);
 		if (!optionalsala.isPresent()) {
@@ -62,15 +59,13 @@ public class SalaService {
 		}
 
 		Sala sala = optionalsala.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		sala.setNum_asientos(salaDetails.getNum_asientos());
 		sala.setTipoProyeccion(salaDetails.getTipoProyeccion());
 
 		return Optional.of(salaRepository.save(sala));
 	}
-
-	// Eliminar un sala por ID
+ 
 	public boolean delete(Integer id) {
 		if (!salaRepository.existsById(id)) {
 			return false;

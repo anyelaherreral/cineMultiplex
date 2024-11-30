@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Asiento;
-import co.edu.ufps.entities.Estado;
-import co.edu.ufps.entities.MetodoPago;
+import co.edu.ufps.entities.Estado; 
 import co.edu.ufps.repositories.AsientoRepository;
 import co.edu.ufps.repositories.EstadoRepository;
 
@@ -29,13 +28,11 @@ public class EstadoService {
 	public Estado create(Estado estado) {
 		return estadoRepository.save(estado);
 	}
-
-	// Obtener un estado por ID
+ 
 	public Optional<Estado> getById(Integer id) {
 		return estadoRepository.findById(id);
 	}
-
-	// Actualizar un estado existente
+ 
 	public Optional<Estado> update(Integer id, Estado estadoDetails) {
 		Optional<Estado> optionalestado = estadoRepository.findById(id);
 		if (!optionalestado.isPresent()) {
@@ -43,14 +40,12 @@ public class EstadoService {
 		}
 
 		Estado estado = optionalestado.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		estado.setDescripcion(estadoDetails.getDescripcion());
 
 		return Optional.of(estadoRepository.save(estado));
 	}
-
-	// Eliminar un estado por ID
+ 
 	public boolean delete(Integer id) {
 		if (!estadoRepository.existsById(id)) {
 			return false;

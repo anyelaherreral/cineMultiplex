@@ -6,8 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +31,6 @@ public class FuncionController {
 
 	@GetMapping
 	public List<Funcion>  list() {
-		
 		return funcionService.list();
 	}
 
@@ -47,26 +45,25 @@ public class FuncionController {
 		return Funcion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 	
+	@PutMapping("/{id}")
+	public ResponseEntity<Funcion> update(@PathVariable Integer id, @RequestBody Funcion FuncionDetails) {
+		Optional<Funcion> updatedFuncion = funcionService.update(id, FuncionDetails);
+		return updatedFuncion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+	}
+	
 	@GetMapping("/fecha/{fecha}")
 	public ResponseEntity<List<Funcion>>getByGrupo(@PathVariable LocalDate fecha) {
 		List<Funcion> selecciones = funcionService.listFuncionesPorFecha(fecha);
 		if (selecciones.isEmpty()) {
-			return ResponseEntity.notFound().build(); // Retorna un 404 si no hay resultados para ese rol
+			return ResponseEntity.notFound().build();  
 		}
-		return ResponseEntity.ok(selecciones); // Retorna un 200 con la lista de resultados
+		return ResponseEntity.ok(selecciones);  
 	}
 	
 	@PutMapping("/{funcionId}/pelicula/{peliculaId}")
     public Funcion agregarPeliculaAFuncion(@PathVariable Integer funcionId, @PathVariable Integer peliculaId) {
         return funcionService.agregarPeliculaAFuncion(funcionId, peliculaId);
     }
-
-
-	@PutMapping("/{id}")
-	public ResponseEntity<Funcion> update(@PathVariable Integer id, @RequestBody Funcion FuncionDetails) {
-		Optional<Funcion> updatedFuncion = funcionService.update(id, FuncionDetails);
-		return updatedFuncion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -85,11 +82,9 @@ public class FuncionController {
     }
 	
 	@GetMapping("/{funcionId}/asientos")
-    public ResponseEntity<List<Asiento>> obtenerAsientosDeSalaPorFuncion(@PathVariable Integer funcionId) {
-        // Llamar al servicio para obtener los asientos disponibles de la sala asociada a la función
+    public ResponseEntity<List<Asiento>> obtenerAsientosDeSalaPorFuncion(@PathVariable Integer funcionId) { 
         List<Asiento> asientos = funcionService.obtenerAsientosDeSalaPorFuncion(funcionId);
-
-        // Retornar la lista de asientos con estado 'Disponible' de la sala de la función
+ 
         return new ResponseEntity<>(asientos, HttpStatus.OK);
     }
 

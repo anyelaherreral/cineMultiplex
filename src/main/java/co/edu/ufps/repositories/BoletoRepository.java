@@ -8,8 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import co.edu.ufps.entities.Asiento;
-import co.edu.ufps.entities.Boleto;
-import co.edu.ufps.entities.Funcion;
+import co.edu.ufps.entities.Boleto; 
 
 
 @Repository

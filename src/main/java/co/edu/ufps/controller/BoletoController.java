@@ -9,9 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import co.edu.ufps.entities.Asiento;
-import co.edu.ufps.entities.Boleto;
-import co.edu.ufps.entities.Funcion;
-import co.edu.ufps.entities.CategoriaBoleto;
+import co.edu.ufps.entities.Boleto; 
 import co.edu.ufps.services.BoletoService;
 import co.edu.ufps.services.CategoriaBoletoService;
 import co.edu.ufps.services.FuncionService;
@@ -29,18 +27,25 @@ public class BoletoController {
 	@Autowired
 	private CategoriaBoletoService categoriaBoletoService;
 
-
 	@GetMapping
 	public ResponseEntity<List<Boleto>> getAllBoletos() {
 		List<Boleto> boletos = boletoService.list();
 		return new ResponseEntity<>(boletos, HttpStatus.OK);
 	}
 
-	
 	@PostMapping
 	public ResponseEntity<Boleto> createBoleto(@RequestBody Boleto boleto) {
 		Boleto createdBoleto = boletoService.create(boleto);
 		return new ResponseEntity<>(createdBoleto, HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/funcion/{funcionId}/asientos")
+	public ResponseEntity<List<Asiento>> getAsientosByFuncion(@PathVariable Integer funcionId) {
+	    List<Asiento> asientos = boletoService.getAsientosByFuncionId(funcionId);
+	    if (asientos.isEmpty()) {
+	        return ResponseEntity.noContent().build();
+	    }
+	    return ResponseEntity.ok(asientos);
 	}
 
 
@@ -72,33 +77,23 @@ public class BoletoController {
             Boleto boletoActualizado = boletoService.addAsientoToBoleto(boletoId, asientoId, funcionId);
             return ResponseEntity.ok(boletoActualizado);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null); // Error de cliente
+            return ResponseEntity.badRequest().body(null);  
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Conflicto
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);  
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); // Error inesperado
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);  
         }
     }
-	
-	@GetMapping("/funcion/{funcionId}/asientos")
-	public ResponseEntity<List<Asiento>> getAsientosByFuncion(@PathVariable Integer funcionId) {
-	    List<Asiento> asientos = boletoService.getAsientosByFuncionId(funcionId);
-	    if (asientos.isEmpty()) {
-	        return ResponseEntity.noContent().build();
-	    }
-	    return ResponseEntity.ok(asientos);
-	}
 	
 	@PostMapping("/ListaBoletos")
 	public ResponseEntity<List<Boleto>> createBoletos(@RequestBody List<Boleto> boletos) {
 	    try {
-	        // Crear los boletos
+	         
 	        List<Boleto> boletosCreados = boletoService.createBoletos(boletos);
-	        
-	        // Devolver los boletos creados con un código de estado 201 (Creado)
+	         
 	        return new ResponseEntity<>(boletosCreados, HttpStatus.CREATED);
 	    } catch (Exception e) {
-	        // Si ocurre algún error, devolver un código de estado 500 (Error interno del servidor)
+	        
 	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
 	}

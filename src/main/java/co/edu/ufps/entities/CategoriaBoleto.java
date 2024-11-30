@@ -37,12 +37,5 @@ public class CategoriaBoleto {
 	@OneToMany(mappedBy = "categoriaBoleto", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<CategoriaBoletoPromocion> categoriaBoletoPromocion;
-	
-//	@ManyToMany
-//	@JoinTable(
-//			name ="categoria_boleto_promocion",
-//			joinColumns = @JoinColumn(name="categoria_boleto_id"),
-//			inverseJoinColumns = @JoinColumn(name="promocion_id")
-//			)
-//	List<Promocion> promociones;
+ 
 }

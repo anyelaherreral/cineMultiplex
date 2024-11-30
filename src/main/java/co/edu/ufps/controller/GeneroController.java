@@ -31,13 +31,13 @@ public class GeneroController {
 		return generoService.list();
 	}
 	
-	@GetMapping("/{descripcion}/peliculas")  // Podrías usar una ruta más descriptiva
+	@GetMapping("/{descripcion}/peliculas") 
 	public ResponseEntity<List<Pelicula>> listPeliculas(@PathVariable String descripcion) {
 	    List<Pelicula> peliculas = generoService.listPeliculas(descripcion);
 	    if (peliculas.isEmpty()) {
-	        return ResponseEntity.notFound().build();  // Retorna un 404 si no hay peliculas para ese rol
+	        return ResponseEntity.notFound().build();  
 	    }
-	    return ResponseEntity.ok(peliculas);  // Retorna un 200 con la lista de peliculas
+	    return ResponseEntity.ok(peliculas);  
 	}
 	
 	@GetMapping("/{id}")

@@ -1,15 +1,12 @@
 package co.edu.ufps.services;
-
-import java.sql.Time;
+ 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
+ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Service;
+ import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.entities.Funcion;
@@ -27,39 +24,18 @@ public class FuncionService {
 	@Autowired
 	PeliculaRepository peliculaRepository;
 
-	// Listar todas las funciones
 	public List<Funcion> list() {
 		return funcionRepository.findAll();
 	}
 
-	// Crear una nueva función
 	public Funcion create(Funcion funcion) {
 		return funcionRepository.save(funcion);
 	}
 
-	// Obtener un funcion por ID
 	public Optional<Funcion> getById(Integer id) {
 		return funcionRepository.findById(id);
 	}
-
-	// Método para agregar una película a una función
-	public Funcion agregarPeliculaAFuncion(Integer funcionId, Integer peliculaId) {
-		// Buscar la función por su ID
-		Funcion funcion = funcionRepository.findById(funcionId)
-				.orElseThrow(() -> new RuntimeException("Función no encontrada"));
-
-		// Buscar la película por su ID
-		Pelicula pelicula = peliculaRepository.findById(peliculaId)
-				.orElseThrow(() -> new RuntimeException("Película no encontrada"));
-
-		// Asignar la película a la función
-		funcion.setPelicula(pelicula);
-
-		// Guardar la función con la película asignada
-		return funcionRepository.save(funcion);
-	}
-
-	// Actualizar un funcion existente
+	
 	public Optional<Funcion> update(Integer id, Funcion funcionDetails) {
 		Optional<Funcion> optionalfuncion = funcionRepository.findById(id);
 		if (!optionalfuncion.isPresent()) {
@@ -74,6 +50,17 @@ public class FuncionService {
 		return Optional.of(funcionRepository.save(funcion));
 	}
 
+	public Funcion agregarPeliculaAFuncion(Integer funcionId, Integer peliculaId) {
+ 		Funcion funcion = funcionRepository.findById(funcionId)
+				.orElseThrow(() -> new RuntimeException("Función no encontrada"));
+
+ 		Pelicula pelicula = peliculaRepository.findById(peliculaId)
+				.orElseThrow(() -> new RuntimeException("Película no encontrada"));
+
+ 		funcion.setPelicula(pelicula);
+
+ 		return funcionRepository.save(funcion);
+	}
 
 	public boolean delete(Integer id) {
 		if (!funcionRepository.existsById(id)) {
@@ -84,8 +71,7 @@ public class FuncionService {
 		return true;
 	}
 
-	// Obtener funciones por fecha
-	public List<Funcion> listFuncionesPorFecha(LocalDate fecha) {
+ 	public List<Funcion> listFuncionesPorFecha(LocalDate fecha) {
 		return funcionRepository.findByFecha(fecha);
 	}
 
@@ -98,28 +84,22 @@ public class FuncionService {
 	}
 	
 	public List<Asiento> obtenerAsientosDeSalaPorFuncion(Integer funcionId) {
-        // Buscar la función por su ID
-        Funcion funcion = funcionRepository.findById(funcionId)
+         Funcion funcion = funcionRepository.findById(funcionId)
                 .orElseThrow(() -> new IllegalArgumentException("La función con ID " + funcionId + " no existe."));
 
-        // Obtener la sala asociada a la función
-        Sala sala = funcion.getSala(); // Suponiendo que Funcion tiene una relación con Sala
+         Sala sala = funcion.getSala();  
 
-        // Verificar que la sala existe
-        if (sala == null) {
+         if (sala == null) {
             throw new IllegalArgumentException("La sala asociada a la función no existe.");
         }
 
-        // Obtener los asientos de la sala
-        List<Asiento> asientosSala = sala.getAsientos(); // Suponiendo que Sala tiene una lista de Asientos
+         List<Asiento> asientosSala = sala.getAsientos();  
 
-        // Filtrar solo los asientos que están disponibles (estado = 'Disponible')
-        List<Asiento> asientosDisponibles = asientosSala.stream()
+         List<Asiento> asientosDisponibles = asientosSala.stream()
                 .filter(asiento -> "Disponible".equalsIgnoreCase(asiento.getEstado().getDescripcion()))
                 .collect(Collectors.toList());
 
-        // Devolver los asientos disponibles de la sala asociada a la función
-        return asientosDisponibles;
+         return asientosDisponibles;
     }
 
 }

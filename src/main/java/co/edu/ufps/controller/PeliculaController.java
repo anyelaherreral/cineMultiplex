@@ -35,13 +35,7 @@ public class PeliculaController {
 	public Pelicula create(@RequestBody Pelicula Pelicula) {
 		return peliculaService.create(Pelicula);
 	}
-
-//	@GetMapping("/{nombre}")
-//	public List<Pelicula> getByNombre(@PathVariable String nombre) {
-//		List<Pelicula> nombres = peliculaService.getByNombre(nombre);
-//		return nombres;
-//	}
-
+ 
 	@PutMapping("/{id}")
 	public ResponseEntity<Pelicula> update(@PathVariable Integer id, @RequestBody Pelicula PeliculaDetails) {
 		Optional<Pelicula> updatedPelicula = peliculaService.update(id, PeliculaDetails);
@@ -60,12 +54,7 @@ public class PeliculaController {
         return pelicula.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 	
-//	@DeleteMapping("/{titulo}")
-//	public ResponseEntity<Void> delete(@PathVariable String titulo) {
-//		boolean deleted = peliculaService.delete(titulo);
-//		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
-//	}
-
+ 
 	@DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarPelicula(@PathVariable Integer id) {
         if (!peliculaService.delete(id)) {

@@ -52,12 +52,7 @@ public class EstadoController{
 		boolean deleted = estadoService.delete(id);
 		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 	}
-	
-//	@GetMapping("/{descripcion}")
-//    public ResponseEntity<Estado> getByDescripcion(@PathVariable String descripcion) {
-//        Optional<Estado> estado = estadoService.getByDescripcion(descripcion);
-//        return estado.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//    }
+ 
 	
 	@PostMapping("/{id}/add_asientos/{asientoId}")
 	public Estado create(@PathVariable Integer id, @PathVariable Integer asientoId) {

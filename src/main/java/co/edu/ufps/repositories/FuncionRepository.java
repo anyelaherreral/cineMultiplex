@@ -21,6 +21,4 @@ public interface FuncionRepository extends JpaRepository<Funcion,Integer>{
 	
 	@Query(value = "SELECT EXISTS (SELECT 1 FROM empleado_funcion ef WHERE ef.empleado_id = :empleadoId)", nativeQuery = true)
 	boolean existsEmpleadoInFunciones(@Param("empleadoId") Integer empleadoId);
-	
-    
 }

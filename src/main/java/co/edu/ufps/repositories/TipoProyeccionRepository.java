@@ -10,5 +10,5 @@ import co.edu.ufps.entities.TipoProyeccion;
 
 @Repository
 public interface TipoProyeccionRepository extends JpaRepository<TipoProyeccion,Integer>{
-//	Optional<TipoProyeccion> findByDescripcion(String descripcion);
+ 
 }

@@ -5,12 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service; 
 
 import co.edu.ufps.entities.Boleto;
-import co.edu.ufps.entities.Estado;
-import co.edu.ufps.entities.CategoriaBoleto;
+import co.edu.ufps.entities.Estado; 
 import co.edu.ufps.entities.Funcion;
 import co.edu.ufps.entities.Asiento;
 import co.edu.ufps.repositories.BoletoRepository;
@@ -46,33 +44,35 @@ public class BoletoService {
         return boletoRepository.findById(id);
     }
     
+    public List<Asiento> getAsientosByFuncionId(Integer funcionId) {
+        return boletoRepository.findAsientosByFuncionId(funcionId);
+    }
+    
+    
     public Optional<Boleto> asignarAsientoABoleto(Integer boletoId, Integer salaId, String letra, String numero) {
-        // Buscar el boleto
-        Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
+         Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
         if (boletoOpt.isEmpty()) {
-            return Optional.empty(); // No existe el boleto
+            return Optional.empty();  
         }
 
-        // Verificar que el asiento existe y está disponible
-        Optional<Asiento> asientoOpt = asientoRepository.findBySalaIdAndLetraAndNumeroAsientoAndEstadoDescripcion(salaId, letra, numero, "DISPONIBLE");
+         Optional<Asiento> asientoOpt = asientoRepository.findBySalaIdAndLetraAndNumeroAsientoAndEstadoDescripcion(salaId, letra, numero, "DISPONIBLE");
         if (asientoOpt.isEmpty()) {
-            return Optional.empty(); // No se encontró un asiento disponible
+            return Optional.empty();  
         }
-
-        // Cambiar estado del asiento a "OCUPADO"
+ 
         Asiento asiento = asientoOpt.get();
         Optional<Estado> estadoOcupadoOpt = estadoRepository.findByDescripcion("OCUPADO");
         if (estadoOcupadoOpt.isEmpty()) {
-            return Optional.empty(); // No existe el estado "OCUPADO"
+            return Optional.empty();  
         }
 
         asiento.setEstado(estadoOcupadoOpt.get());
-        asientoRepository.save(asiento); // Guardar el cambio de estado del asiento
+        asientoRepository.save(asiento);  
 
-        // Asignar asiento al boleto
+    
         Boleto boleto = boletoOpt.get();
         boleto.setAsiento(asiento);
-        return Optional.of(boletoRepository.save(boleto)); // Guardar el boleto actualizado
+        return Optional.of(boletoRepository.save(boleto));  
     }
     
 
@@ -85,7 +85,7 @@ public class BoletoService {
         Boleto boleto = optionalBoleto.get();
         boleto.setAsiento(boletoDetails.getAsiento());
         boleto.setFuncion(boletoDetails.getFuncion());
-//        boleto.setCategoriaBoleto(boletoDetails.getCategoriaBoleto());
+ 
 
         return Optional.of(boletoRepository.save(boleto));
     }
@@ -99,20 +99,17 @@ public class BoletoService {
     }
     
     public Boleto addAsientoToBoleto(Integer boletoId, Integer asientoId, Integer funcionId) {
-        // Buscar el boleto por ID
-        Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
+         Optional<Boleto> boletoOpt = boletoRepository.findById(boletoId);
         if (boletoOpt.isEmpty()) {
             throw new IllegalArgumentException("El boleto con ID " + boletoId + " no existe.");
         }
 
-        // Buscar el asiento por ID
-        Optional<Asiento> asientoOpt = asientoRepository.findById(asientoId);
+         Optional<Asiento> asientoOpt = asientoRepository.findById(asientoId);
         if (asientoOpt.isEmpty()) {
             throw new IllegalArgumentException("El asiento con ID " + asientoId + " no existe.");
         }
 
-        // Buscar la función por ID
-        Optional<Funcion> funcionOpt = funcionRepository.findById(funcionId);
+         Optional<Funcion> funcionOpt = funcionRepository.findById(funcionId);
         if (funcionOpt.isEmpty()) {
             throw new IllegalArgumentException("La función con ID " + funcionId + " no existe.");
         }
@@ -121,40 +118,29 @@ public class BoletoService {
         Asiento asiento = asientoOpt.get();
         Funcion funcion = funcionOpt.get();
 
-        // Verificar si el asiento está disponible para la función específica
-        boolean asientoOcupado = boletoRepository.existsByFuncionIdAndAsientoId(funcionId, asientoId);
+         boolean asientoOcupado = boletoRepository.existsByFuncionIdAndAsientoId(funcionId, asientoId);
         if (asientoOcupado) {
             throw new IllegalStateException("El asiento " + asientoId + " ya está ocupado para la función " + funcionId + ".");
         }
 
-        // Asignar el asiento al boleto y establecer la función
-        boleto.setAsiento(asiento);
+         boleto.setAsiento(asiento);
         boleto.setFuncion(funcion);
 
-        // Cambiar el estado del asiento a 'Ocupado'
-        asiento.getEstado().setDescripcion("Ocupado");
+         asiento.getEstado().setDescripcion("Ocupado");
         asientoRepository.save(asiento);
 
-        // Guardar y devolver el boleto actualizado
-        return boletoRepository.save(boleto);
-    }
-    
-    public List<Asiento> getAsientosByFuncionId(Integer funcionId) {
-        return boletoRepository.findAsientosByFuncionId(funcionId);
+         return boletoRepository.save(boleto);
     }
     
     public List<Boleto> createBoletos(List<Boleto> boletos) {
         List<Boleto> boletosCreados = new ArrayList<>();
 
-        // Iterar a través de los boletos y guardarlos
-        for (Boleto boleto : boletos) {
+         for (Boleto boleto : boletos) {
             try {
-                Boleto boletoCreado = boletoRepository.save(boleto);  // Guardar cada boleto
+                Boleto boletoCreado = boletoRepository.save(boleto);  
                 boletosCreados.add(boletoCreado);
             } catch (Exception e) {
-                // Si ocurre un error al guardar un boleto, lo registramos y continuamos con los demás
                 System.err.println("Error al crear boleto: " + e.getMessage());
-                // Dependiendo de tus necesidades, puedes lanzar una excepción o simplemente registrar el error
             }
         }
 

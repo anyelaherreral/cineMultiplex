@@ -33,14 +33,11 @@ public class EmpleadoService {
 	public Empleado create(Empleado empleado) {
 		return empleadoRepository.save(empleado);
 	}
-	
-
-	// Obtener un empleado por ID
+	 
 	public Optional<Empleado> getByDocumento(String documento) {
 		return empleadoRepository.findByDocumento(documento);
 	}
-
-	// Actualizar un empleado existente
+ 
 	public Optional<Empleado> update(Integer id, Empleado empleadoDetails) {
 		Optional<Empleado> optionalempleado = empleadoRepository.findById(id);
 		if (!optionalempleado.isPresent()) {
@@ -48,8 +45,7 @@ public class EmpleadoService {
 		}
 
 		Empleado empleado = optionalempleado.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		empleado.setNombre(empleadoDetails.getNombre());
 		empleado.setDocumento(empleadoDetails.getDocumento());
 		empleado.setEmail(empleadoDetails.getEmail());
@@ -58,8 +54,7 @@ public class EmpleadoService {
 
 		return Optional.of(empleadoRepository.save(empleado));
 	}
-
-	// Eliminar un empleado por ID
+ 
 	public boolean delete(Integer id) {
 		if (funcionRepository.existsEmpleadoInFunciones(id)) {
             return false;
@@ -105,14 +100,13 @@ public class EmpleadoService {
 	
 	public List<Funcion> obtenerFuncionesDeEmpleado(Integer empleadoId) {
         Optional<Empleado> empleadoOpt = empleadoRepository.findById(empleadoId);
-        
-        // Si el empleado no existe, devolvemos null
+         
         if (!empleadoOpt.isPresent()) {
             return null;
         }
         
         Empleado empleado = empleadoOpt.get();
-        return empleado.getFunciones(); // Suponiendo que tienes una relación bidireccional en la entidad Empleado
+        return empleado.getFunciones();  
     }
 	
 	public void eliminarFuncionDeEmpleado(Integer empleadoId, Integer funcionId) {
@@ -122,8 +116,8 @@ public class EmpleadoService {
         Funcion funcion = funcionRepository.findById(funcionId)
                 .orElseThrow(() -> new RuntimeException("Función no encontrada"));
 
-        empleado.getFunciones().remove(funcion); // Aquí se elimina la función de la lista de funciones del empleado
-        empleadoRepository.save(empleado);  // Persistir los cambios
+        empleado.getFunciones().remove(funcion);  
+        empleadoRepository.save(empleado);   
     }
 	
 	

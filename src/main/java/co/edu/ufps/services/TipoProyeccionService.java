@@ -28,14 +28,11 @@ public class TipoProyeccionService {
 	public TipoProyeccion create(TipoProyeccion tipoProyeccion) {
 		return tipoProyeccionRepository.save(tipoProyeccion);
 	}
-
-	// Obtener un tipoProyeccion por ID
+ 
 	public Optional<TipoProyeccion> getById(Integer id) {
 		return tipoProyeccionRepository.findById(id);
 	}
-	
-
-	// Actualizar un tipoProyeccion existente
+	 
 	public Optional<TipoProyeccion> update(Integer id, TipoProyeccion tipoProyeccionDetails) {
 		Optional<TipoProyeccion> optionaltipoProyeccion = tipoProyeccionRepository.findById(id);
 		if (!optionaltipoProyeccion.isPresent()) {
@@ -43,14 +40,11 @@ public class TipoProyeccionService {
 		}
 
 		TipoProyeccion tipoProyeccion = optionaltipoProyeccion.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		tipoProyeccion.setDescripcion(tipoProyeccionDetails.getDescripcion());
 
 		return Optional.of(tipoProyeccionRepository.save(tipoProyeccion));
-	}
-
-	// Eliminar un tipoProyeccion por ID
+	} 
 	public boolean delete(Integer id) {
 		if (!tipoProyeccionRepository.existsById(id)) {
 			return false;

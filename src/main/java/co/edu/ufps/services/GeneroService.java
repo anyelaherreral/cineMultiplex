@@ -33,8 +33,7 @@ public class GeneroService {
 		return generoRepository.save(genero);
 	}
 
-	// Obtener un genero por ID
-	public Optional<Genero> getById(Integer id) {
+ 	public Optional<Genero> getById(Integer id) {
 		return generoRepository.findById(id);
 	}
 
@@ -42,8 +41,7 @@ public class GeneroService {
 		return generoRepository.findByDescripcion(descripcion);
 	}
 
-	// Actualizar un genero existente
-	public Optional<Genero> update(Integer id, Genero generoDetails) {
+ 	public Optional<Genero> update(Integer id, Genero generoDetails) {
 		Optional<Genero> optionalgenero = generoRepository.findById(id);
 		if (!optionalgenero.isPresent()) {
 			return Optional.empty();
@@ -51,14 +49,12 @@ public class GeneroService {
 
 		Genero genero = optionalgenero.get();
 
-		// Actualiza otros campos según sea necesario
-		genero.setDescripcion(generoDetails.getDescripcion());
+ 		genero.setDescripcion(generoDetails.getDescripcion());
 
 		return Optional.of(generoRepository.save(genero));
 	}
 
-	// Eliminar un genero por ID
-	public boolean delete(Integer id) {
+ 	public boolean delete(Integer id) {
 		if (!generoRepository.existsById(id)) {
 			return false;
 		}
@@ -67,8 +63,7 @@ public class GeneroService {
 		return true;
 	}
 
-	// Eliminar un genero por Descripcion
-	@Transactional
+ 	@Transactional
 	public boolean deleteByDescripcion(String descripcion) {
 		Optional<Genero> generoOpt = generoRepository.findByDescripcion(descripcion);
 		if (generoOpt.isPresent()) {

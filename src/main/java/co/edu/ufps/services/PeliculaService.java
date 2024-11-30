@@ -29,8 +29,7 @@ public class PeliculaService {
 	public Optional<Pelicula> getByNombre(String titulo) {
 		return peliculaRepository.findByTitulo(titulo);
 	}
-
-	// Actualizar un pelicula existente por ID
+ 
 	public Optional<Pelicula> update(Integer id, Pelicula peliculaDetails) {
 		Optional<Pelicula> optionalpelicula = peliculaRepository.findById(id);
 		if (!optionalpelicula.isPresent()) {
@@ -38,16 +37,14 @@ public class PeliculaService {
 		}
 
 		Pelicula pelicula = optionalpelicula.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		pelicula.setTitulo(peliculaDetails.getTitulo());
 		pelicula.setDuracion(peliculaDetails.getDuracion());
 		pelicula.setSinopsis(peliculaDetails.getSinopsis());
 
 		return Optional.of(peliculaRepository.save(pelicula));
 	}
-	
-	// Actualizar un pelicula existente por Titulo
+	 
 		public Optional<Pelicula> update(String titulo, Pelicula peliculaDetails) {
 			Optional<Pelicula> optionalpelicula = peliculaRepository.findByTitulo(titulo);
 			if (!optionalpelicula.isPresent()) {
@@ -55,8 +52,7 @@ public class PeliculaService {
 			}
 
 			Pelicula pelicula = optionalpelicula.get();
-
-			// Actualiza otros campos según sea necesario
+ 
 			pelicula.setTitulo(peliculaDetails.getTitulo());
 			pelicula.setDuracion(peliculaDetails.getDuracion());
 			pelicula.setSinopsis(peliculaDetails.getSinopsis());

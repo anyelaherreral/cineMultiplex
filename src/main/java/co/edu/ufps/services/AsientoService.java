@@ -6,14 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.edu.ufps.entities.Asiento;
-import co.edu.ufps.entities.Boleto;
-import co.edu.ufps.entities.Empleado;
-import co.edu.ufps.entities.Estado;
+import co.edu.ufps.entities.Asiento; 
 import co.edu.ufps.entities.Sala;
-import co.edu.ufps.repositories.AsientoRepository;
-import co.edu.ufps.repositories.BoletoRepository;
-import co.edu.ufps.repositories.EstadoRepository;
+import co.edu.ufps.repositories.AsientoRepository; 
 import co.edu.ufps.repositories.SalaRepository;
 
 @Service
@@ -43,8 +38,7 @@ public class AsientoService {
     }
     
     public Optional<Asiento> update(Integer salaId, String letra, String numeroAsiento, Asiento asientoDetails) {
-        // Buscar el asiento por salaId, letra y numeroAsiento
-    	
+        
     	    
     	 System.out.println("Verificando ID de sala: " + salaId);
     	 
@@ -54,15 +48,13 @@ public class AsientoService {
     	 
     	 Optional<Asiento> optionalAsiento = asientoRepository.findBySalaIdAndLetraAndNumeroAsiento(salaId, letra, numeroAsiento);
 
-    	    
-    	    // Buscar el asiento por los valores que has proporcionado
+    	     
     	    if (!optionalAsiento.isPresent()) {
-    	        return Optional.empty();  // Si no existe, devolver Optional vacío
+    	        return Optional.empty();   
     	    }
     	    
     	    Asiento asiento = optionalAsiento.get();
-
-    	    // Verificar si se pasó un valor para actualizar y solo actualizar esos campos
+ 
     	    if (asientoDetails.getLetra() != null && !asientoDetails.getLetra().isEmpty()) {
     	        asiento.setLetra(asientoDetails.getLetra());
     	    }
@@ -75,8 +67,7 @@ public class AsientoService {
     	    if (asientoDetails.getSala() != null) {
     	        asiento.setSala(asientoDetails.getSala());
     	    }
-        
-        // Guardamos y devolvemos el asiento actualizado
+         
         return Optional.of(asientoRepository.save(asiento));
     }
 
@@ -86,26 +77,20 @@ public class AsientoService {
         Optional<Asiento> asientoOpt = asientoRepository.findBySalaIdAndLetraAndNumeroAsiento(salaId, letra, numeroAsiento);
         
         if (asientoOpt.isPresent()) {
-            // Eliminar el asiento encontrado
-            asientoRepository.delete(asientoOpt.get());
-            return true; // Se eliminó el asiento
+             asientoRepository.delete(asientoOpt.get());
+            return true;  
         }
-        return false; // No se encontró el asiento para eliminar
+        return false;  
     }
     
     public boolean isAvailable(Integer salaId, String letra, String numeroAsiento) {
         Optional<Asiento> asientoOpt = asientoRepository.findBySalaIdAndLetraAndNumeroAsiento(salaId, letra, numeroAsiento);
-        
-        // Verificar si el asiento existe y está disponible
+         
         return asientoOpt.isPresent() && "Disponible".equalsIgnoreCase(asientoOpt.get().getEstado().getDescripcion());
     }
     
     public List<Asiento> findBySalaId(Integer salaId){
 		return asientoRepository.findBySalaId(salaId);
     }
-    
-//    public List<Asiento> obtenerAsientosPorSalaYFuncion(Integer salaId, Integer funcionId) {
-//        return asientoRepository.findBySalaAndFuncion(salaId, funcionId);
-//    }
-    
+     
 }

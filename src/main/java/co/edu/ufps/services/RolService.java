@@ -38,13 +38,11 @@ public class RolService {
 	public Rol create(Rol rol) {
 		return rolRepository.save(rol);
 	}
-
-	// Obtener un rol por ID
+ 
 	public Optional<Rol> getById(Integer id) {
 		return rolRepository.findById(id);
 	}
-
-	// Actualizar un rol existente
+ 
 	public Optional<Rol> update(Integer id, Rol rolDetails) {
 		Optional<Rol> optionalrol = rolRepository.findById(id);
 		if (!optionalrol.isPresent()) {
@@ -52,14 +50,12 @@ public class RolService {
 		}
 
 		Rol rol = optionalrol.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		rol.setDescripcion(rolDetails.getDescripcion());
 
 		return Optional.of(rolRepository.save(rol));
 	}
-
-	// Eliminar un rol por ID
+ 
 	public boolean delete(Integer id) {
 		if (!rolRepository.existsById(id)) {
 			return false;

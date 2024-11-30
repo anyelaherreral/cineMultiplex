@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.PedidoSnackPromocion;
-import co.edu.ufps.repositories.PedidoSnackPromocionRepository; // Asegúrate de importar el repositorio correspondiente
+import co.edu.ufps.repositories.PedidoSnackPromocionRepository;  
 
 @Service
 public class PedidoSnackPromocionService {

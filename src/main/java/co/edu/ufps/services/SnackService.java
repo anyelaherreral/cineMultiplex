@@ -35,13 +35,11 @@ public class SnackService {
 	public Snack create(Snack snack) {
 		return snackRepository.save(snack);
 	}
-
-	// Obtener un snack por ID
+ 
 	public Optional<Snack> getByDocumento(String id) {
 		return snackRepository.findById(id);
 	}
-
-	// Actualizar un snack existente
+ 
 	public Optional<Snack> update(String id, Snack snackDetails) {
 		Optional<Snack> optionalsnack = snackRepository.findById(id);
 		if (!optionalsnack.isPresent()) {
@@ -49,16 +47,14 @@ public class SnackService {
 		}
 
 		Snack snack = optionalsnack.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		snack.setDescripcion(snack.getDescripcion());
 		snack.setPrecio(snack.getPrecio());
 		snack.setCantidadDisponible(snackDetails.getCantidadDisponible());
 
 		return Optional.of(snackRepository.save(snack));
 	}
-
-	// Eliminar un snack por ID
+ 
 	public boolean delete(String id) {
 		if (!snackRepository.existsById(id)) {
 			return false;
@@ -97,8 +93,7 @@ public class SnackService {
 		}
 		return null;
 	}
-	
-	// Método en SnackService
+	 
 	public Snack restarCantidadDisponible(String id, Integer cantidadRestar) {
 	    Optional<Snack> snackOpt = snackRepository.findById(id);
 	    if (!snackOpt.isPresent()) {
@@ -112,8 +107,7 @@ public class SnackService {
 	    if (snack.getCantidadDisponible() < cantidadRestar) {
 	        throw new IllegalArgumentException("No hay suficiente cantidad disponible para restar.");
 	    }
-
-	    // Restar la cantidad
+ 
 	    snack.setCantidadDisponible(snack.getCantidadDisponible() - cantidadRestar);
 
 	    return snackRepository.save(snack);

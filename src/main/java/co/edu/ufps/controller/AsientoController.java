@@ -71,11 +71,10 @@ public class AsientoController {
     @GetMapping("/sala/{salaId}/letra/{letra}/numero/{numeroAsiento}/disponible")
     public ResponseEntity<Boolean> isAvailable(@PathVariable Integer salaId,
                                                @PathVariable String letra, 
-                                               @PathVariable String numeroAsiento) {
-        // Llamar al servicio para verificar si el asiento está disponible en la sala
+                                               @PathVariable String numeroAsiento) { 
         boolean available = asientoService.isAvailable(salaId, letra, numeroAsiento);
 
-        return ResponseEntity.ok(available); // Devuelve 'true' o 'false' dependiendo de la disponibilidad
+        return ResponseEntity.ok(available);  
     }
 
     

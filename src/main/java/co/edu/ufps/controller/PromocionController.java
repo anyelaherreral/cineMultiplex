@@ -55,15 +55,12 @@ public class PromocionController {
 		boolean deleted = promocionService.delete(id);
 		return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
 	}
-	
-	 // Obtener promociones por fecha
+ 
     @GetMapping("/{fecha_inicio}")
     public List<Promocion> getByFecha(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha) {
         return promocionService.findByFechaInicio(fecha);
     }
-    
-
-    // Obtener promociones por horario
+ 
     @GetMapping("/{fecha_fin}")
     public List<Promocion> getByHorario(@PathVariable Time horario) {
         return promocionService.findByFechaFin(horario);

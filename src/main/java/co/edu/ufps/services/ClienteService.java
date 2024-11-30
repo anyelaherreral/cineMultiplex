@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import co.edu.ufps.entities.Cliente;
-import co.edu.ufps.entities.Pedido; // Asegúrate de importar la clase Pedido
+import co.edu.ufps.entities.Pedido; 
 import co.edu.ufps.repositories.ClienteRepository;
-import co.edu.ufps.repositories.PedidoRepository; // Asegúrate de importar el repositorio de Pedido
+import co.edu.ufps.repositories.PedidoRepository;  
 
 @Service
 public class ClienteService {
@@ -18,7 +18,7 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     @Autowired
-    private PedidoRepository pedidoRepository; // Inyectar el repositorio de pedidos
+    private PedidoRepository pedidoRepository;  
 
    
     public List<Cliente> list() {
@@ -69,12 +69,12 @@ public class ClienteService {
         Optional<Cliente> clienteOpt = clienteRepository.findById(clienteId);
         if (clienteOpt.isPresent()) {
             Cliente cliente = clienteOpt.get();
-            pedido.setCliente(cliente); // Asocia el cliente al pedido
-            pedidoRepository.save(pedido); // Guarda el pedido en la base de datos
-            cliente.getPedidos().add(pedido); // Agrega el pedido a la lista del cliente
-            return clienteRepository.save(cliente); // Guarda el cliente actualizado
+            pedido.setCliente(cliente);  
+            pedidoRepository.save(pedido);  
+            cliente.getPedidos().add(pedido);  
+            return clienteRepository.save(cliente); 
         }
-        return null; // Devuelve null si el cliente no existe
+        return null;  
     }
     
     public Optional<Cliente> getByDocumento(String documento) {

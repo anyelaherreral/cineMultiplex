@@ -1,7 +1,5 @@
 package co.edu.ufps.entities;
-
-
-
+ 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,8 +28,5 @@ public class PedidoSnackPromocion {
     @ManyToOne
     @JoinColumn(name = "pedido_snack_id")
     private Snack snacks;
-
-    
-
-    
+ 
 }

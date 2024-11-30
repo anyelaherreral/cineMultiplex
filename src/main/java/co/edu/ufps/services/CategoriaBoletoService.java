@@ -60,18 +60,15 @@ public class CategoriaBoletoService {
         if (categoriaBoletoOpt.isPresent()) {
             return categoriaBoletoOpt.get().getBoletos();
         }
-        return List.of(); // Retorna una lista vacía si no se encuentra la categoría
+        return List.of();  
     }
 
     public Optional<CategoriaBoleto> addBoletoToCategoria(Integer categoriaId, Boleto boleto) {
         Optional<CategoriaBoleto> categoriaBoletoOpt = categoriaBoletoRepository.findById(categoriaId);
         if (categoriaBoletoOpt.isPresent()) {
             CategoriaBoleto categoriaBoleto = categoriaBoletoOpt.get();
-            boleto.setCategoriaBoleto(categoriaBoleto); // Asociar el boleto con la categoría
-            boletoRepository.save(boleto); // Guardar el boleto
-            categoriaBoleto.getBoletos().add(boleto); // Agregar el boleto a la lista en la categoría
-            return Optional.of(categoriaBoletoRepository.save(categoriaBoleto)); // Guardar la categoría actualizada
+            boleto.setCategoriaBoleto(categoriaBoleto);     
         }
-        return Optional.empty(); // Retorna vacío si no se encuentra la categoría
+        return Optional.empty();  
     }
 }

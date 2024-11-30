@@ -6,8 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.edu.ufps.entities.SnackPromocion;
-import co.edu.ufps.entities.TipoSnack;
+import co.edu.ufps.entities.SnackPromocion; 
 import co.edu.ufps.repositories.SnackPromocionRepository;
 
 
@@ -47,8 +46,7 @@ public class SnackPromocionService {
 		
 		return Optional.of(snackPromocionRepository.save(snackPromocion));
 	}
-
-	// Eliminar un snackPromocion por ID
+ 
 	public boolean delete(Integer id) {
 		if (!snackPromocionRepository.existsById(id)) {
 			return false;

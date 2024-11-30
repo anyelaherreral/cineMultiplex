@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping; 
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.ufps.entities.Empleado;
@@ -54,7 +53,7 @@ public class EmpleadoController {
 
 		Empleado nuevoEmpleado = empleadoService.create(empleadoRequest);
 
-		return ResponseEntity.ok(nuevoEmpleado); // Devolvemos el empleado creado
+		return ResponseEntity.ok(nuevoEmpleado);  
 	}
 
 	@PostMapping("/login")
@@ -113,7 +112,7 @@ public class EmpleadoController {
 		List<Funcion> funciones = empleadoService.obtenerFuncionesDeEmpleado(empleadoId);
 
 		if (funciones.isEmpty()) {
-			return ResponseEntity.noContent().build(); // Retorna 204 No Content si no hay funciones
+			return ResponseEntity.noContent().build();  
 		}
 		return ResponseEntity.ok(funciones);
 	}

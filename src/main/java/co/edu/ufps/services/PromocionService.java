@@ -1,6 +1,5 @@
 package co.edu.ufps.services;
-
-import java.sql.Time;
+ 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,23 +16,19 @@ public class PromocionService {
 
 	@Autowired
 	PromocionRepository promocionRepository;
-	
-	 // Listar todas las promociones
+	 
 	public List<Promocion> list() {
 		return promocionRepository.findAll();
 	}
-	
-	 // Crear una nueva función
+	 
 	public Promocion create(Promocion promocion) {
 		return promocionRepository.save(promocion);
 	}
-
-	// Obtener un promocion por ID
+ 
 	public Optional<Promocion> getById(Integer id) {
 		return promocionRepository.findById(id);
 	}
-
-	// Actualizar un promocion existente
+ 
 	public Optional<Promocion> update(Integer id, Promocion promocionDetails) {
 		Optional<Promocion> optionalpromocion = promocionRepository.findById(id);
 		if (!optionalpromocion.isPresent()) {
@@ -41,16 +36,14 @@ public class PromocionService {
 		}
 
 		Promocion promocion = optionalpromocion.get();
-
-		// Actualiza otros campos según sea necesario
+ 
 		promocion.setDescripcion(promocionDetails.getDescripcion());
 		promocion.setFechaInicio(promocionDetails.getFechaInicio());
 		promocion.setFechaFin(promocionDetails.getFechaFin());
 
 		return Optional.of(promocionRepository.save(promocion));
 	}
-
-	// Eliminar un promocion por ID
+ 
 	public boolean delete(Integer id) {
 		if (!promocionRepository.existsById(id)) {
 			return false;
@@ -59,8 +52,7 @@ public class PromocionService {
 		promocionRepository.deleteById(id);
 		return true;
 	}
-	
-	// Obtener promociones por fecha específica
+	 
     public List<Promocion> findByFechaInicio(Date fecha) {
         return promocionRepository.findByFechaInicio(fecha);
     }
